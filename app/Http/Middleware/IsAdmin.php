@@ -24,11 +24,14 @@ class IsAdmin
             return redirect('/login');
         }
 
-        if (!auth($guard)->user()->is_admin) {
+        $user = auth($guard)->user();
+        $isAdmin = $user->role === 'admin' || $user->is_admin;
+
+        if (!$isAdmin) {
             if ($guard === 'api') {
-                return response()->json(['error' => 'Forbidden'], 403);
+                return response()->json(['error' => 'Forbidden - Admin access required'], 403);
             }
-            abort(403, 'Unauthorized');
+            abort(403, 'Forbidden - Admin access required');
         }
 
         return $next($request);
