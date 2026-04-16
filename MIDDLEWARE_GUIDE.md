@@ -5,16 +5,19 @@
 This application includes three essential middleware for authentication and authorization:
 
 ### 1. **`auth`** - Authentication Middleware
+
 **File**: `app/Http/Middleware/Authenticate.php`
 
 **Purpose**: Redirect unauthenticated users to the login page
 
 **How it works**:
+
 - Checks if user is authenticated
 - Returns 401 JSON response for API requests
 - Redirects to login for web requests
 
 **Usage in Routes**:
+
 ```php
 // Single route
 Route::get('/profile', [ProfileController::class, 'show'])->middleware('auth');
@@ -27,6 +30,7 @@ Route::middleware('auth')->group(function () {
 ```
 
 **Common use case**:
+
 - Protect user dashboard pages
 - Protect user profile pages
 - Protect any resource that requires login
@@ -34,16 +38,19 @@ Route::middleware('auth')->group(function () {
 ---
 
 ### 2. **`guest`** - Guest Middleware
+
 **File**: `app/Http/Middleware/RedirectIfAuthenticated.php`
 
 **Purpose**: Redirect already-logged-in users away from login/register pages
 
 **How it works**:
+
 - Checks if user is already authenticated
 - Redirects to dashboard if already logged in
 - Allows unauthenticated users to proceed
 
 **Usage in Routes**:
+
 ```php
 // Single route
 Route::get('/login', [AuthController::class, 'login'])->middleware('guest');
@@ -58,6 +65,7 @@ Route::middleware('guest')->group(function () {
 ```
 
 **Common use case**:
+
 - Prevent logged-in users from accessing login page
 - Prevent logged-in users from accessing registration page
 - Avoid duplicate login sessions
@@ -65,17 +73,20 @@ Route::middleware('guest')->group(function () {
 ---
 
 ### 3. **`admin`** - Admin Middleware
+
 **File**: `app/Http/Middleware/IsAdmin.php`
 
 **Purpose**: Allow access only to users with `role = 'admin'` or `is_admin = true`
 
 **How it works**:
+
 - Checks if user is authenticated
 - Checks if user has admin role
 - Returns 403 Forbidden response if not admin
 - Supports both web (abort) and API (JSON) responses
 
 **Usage in Routes**:
+
 ```php
 // Single route
 Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])
@@ -90,6 +101,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 ```
 
 **Common use case**:
+
 - Protect admin dashboard
 - Protect admin panel routes
 - Restrict data management operations
@@ -243,6 +255,7 @@ Route::get('/admin', Controller::class)->middleware(['auth', 'admin']);
 ## Testing Middleware
 
 ### Test Authentication
+
 ```php
 public function test_guest_cannot_access_dashboard()
 {
@@ -259,6 +272,7 @@ public function test_authenticated_user_can_access_dashboard()
 ```
 
 ### Test Admin Access
+
 ```php
 public function test_non_admin_cannot_access_admin_panel()
 {
@@ -278,6 +292,7 @@ public function test_admin_can_access_admin_panel()
 ```
 
 ### Test Guest Middleware
+
 ```php
 public function test_authenticated_user_redirected_from_login()
 {
@@ -293,16 +308,19 @@ public function test_authenticated_user_redirected_from_login()
 ## Troubleshooting
 
 ### Issue: Middleware not applying
+
 - Check route is using correct middleware name
 - Verify middleware is registered in `Kernel.php`
 - Ensure class namespace is correct
 
 ### Issue: User being redirected to login
+
 - Confirm user is authenticated
 - Check session is being set properly
 - Verify auth guard is configured correctly
 
 ### Issue: 403 Forbidden on admin routes
+
 - Confirm user has `role = 'admin'`
 - Check if `is_admin` flag is set
 - Verify middleware is applied: `->middleware('admin')`
@@ -318,4 +336,3 @@ public function test_authenticated_user_redirected_from_login()
 5. ✅ `app/Models/User.php` - Updated with role field
 6. ✅ `routes/web.php` - Example usage
 7. ✅ `database/migrations/2026_04_17_000000_add_role_to_users_table.php` - NEW
-

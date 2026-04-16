@@ -91,6 +91,70 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 });
 
 // ============================================================
+// 4. GATES AND POLICIES - Role-based access control
+// ============================================================
+// 
+// GATES: Simple authorization checks defined in AuthServiceProvider
+// - Usage 1: if (Gate::allows('admin')) { ... }
+// - Usage 2: @can('admin') in Blade templates
+// - Usage 3: $this->authorize('admin') in controllers
+//
+// POLICIES: Model-specific authorization rules
+// - Used for model-based authorization (ProductPolicy, etc.)
+// - Applied via: $this->authorize('create', Product::class)
+// - Applied via: @can('update', $product) in Blade
+//
+// Example Gates defined in AuthServiceProvider:
+// - 'admin' - Check if user is admin
+// - 'moderator' - Check if user is admin or moderator
+// - 'manage-users' - Only admins
+// - 'manage-settings' - Only admins
+// - 'view-analytics' - Admins and moderators
+//
+
+use App\Http\Controllers\ProductController;
+
+// ============================================================
+// PRODUCT ROUTES - Demonstrating Policies
+// ============================================================
+
+// Public product listing - Everyone can view
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+// Product management - Requires authentication and policies
+Route::middleware('auth')->group(function () {
+    // Create product - Only if policy allows (admin users)
+    // ProductPolicy::create() checks: user->role === 'admin'
+    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+    // Edit product - Only if policy allows (admin or product owner)
+    // ProductPolicy::update() checks: admin OR owner
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
+
+    // Delete product - Only if policy allows (admin or product owner)
+    // ProductPolicy::delete() checks: admin OR owner
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+});
+
+// ============================================================
+// ADMIN GATE EXAMPLE ROUTES
+// ============================================================
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Using Gate::allows() in controller
+    Route::get('/admin/stats', [ProductController::class, 'adminStats'])->name('admin.stats');
+
+    // Using Gate::denies() in controller
+    Route::get('/managers-area', [ProductController::class, 'managersOnly'])->name('managers.area');
+
+    // Using Gate::authorize() in controller
+    Route::get('/admin/settings', [ProductController::class, 'settingsPage'])->name('admin.settings.page');
+});
+
+// ============================================================
 // ALTERNATIVE: Apply middleware directly to routes
 // ============================================================
 /*
