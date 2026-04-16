@@ -111,7 +111,7 @@
                 </div>
 
                 <!-- Register Link -->
-                <a href="{{ route('register.form') }}" class="w-full block text-center bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-bold py-3 px-4 rounded-lg transition duration-200 border-2 border-indigo-100">
+                <a href="{{ route('register') }}" class="w-full block text-center bg-indigo-50 hover:bg-indigo-100 text-indigo-600 font-bold py-3 px-4 rounded-lg transition duration-200 border-2 border-indigo-100">
                     Create Account
                 </a>
 
