@@ -185,6 +185,12 @@ class ProductController extends Controller
     {
         $this->authorize('delete', $product);
 
+        // Check if product has any associated order items
+        if ($product->orderItems()->exists()) {
+            return redirect()->route('products.index')
+                ->with('error', 'Cannot delete product with existing orders. This product appears in ' . $product->orderItems()->count() . ' order(s).');
+        }
+
         $product->delete();
 
         return redirect()->route('products.index')

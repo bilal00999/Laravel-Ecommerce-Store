@@ -43,6 +43,14 @@ class Product extends Model
     }
 
     /**
+     * Get all order items for this product.
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    /**
      * Scope: Filter by category
      */
     public function scopeByCategory($query, $categoryId)

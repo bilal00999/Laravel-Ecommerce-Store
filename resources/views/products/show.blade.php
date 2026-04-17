@@ -55,6 +55,36 @@
 
 <div class="product-detail-bg">
     <div class="container">
+        <!-- Flash Messages -->
+        @if ($errors->any())
+            <div style="background: #ffebee; border-left: 4px solid #f44336; padding: 1rem; border-radius: 6px; margin-bottom: 2rem;">
+                <div style="color: #c62828; font-weight: 600; margin-bottom: 0.5rem;">
+                    <i class="bi bi-exclamation-circle"></i> Error
+                </div>
+                @foreach ($errors->all() as $error)
+                    <div style="color: #d32f2f; font-size: 0.9rem;">{{ $error }}</div>
+                @endforeach
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div style="background: #ffebee; border-left: 4px solid #f44336; padding: 1rem; border-radius: 6px; margin-bottom: 2rem;">
+                <div style="color: #c62828; font-weight: 600; margin-bottom: 0.5rem;">
+                    <i class="bi bi-exclamation-circle"></i> Error
+                </div>
+                <div style="color: #d32f2f;">{{ session('error') }}</div>
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div style="background: #e8f5e9; border-left: 4px solid #4caf50; padding: 1rem; border-radius: 6px; margin-bottom: 2rem;">
+                <div style="color: #2e7d32; font-weight: 600;">
+                    <i class="bi bi-check-circle"></i> Success
+                </div>
+                <div style="color: #388e3c;">{{ session('success') }}</div>
+            </div>
+        @endif
+
         <!-- Breadcrumb -->
         <nav>
             <ol class="breadcrumb breadcrumb-custom">
