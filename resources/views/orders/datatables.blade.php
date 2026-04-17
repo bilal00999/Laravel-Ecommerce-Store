@@ -64,59 +64,66 @@
 
 <script>
     $(document).ready(function() {
-        // Toggle bulk action section based on checkbox selection
-        function updateBulkActionSection() {
-            const selectedCheckboxes = $('input.order-checkbox:checked');
-            const count = selectedCheckboxes.length;
-            
-            if (count > 0) {
-                $('#bulkActionForm').show();
-                $('#selectedCount').text(count);
+        // Wait for DataTable to be initialized
+        setTimeout(function() {
+            // Toggle bulk action section based on checkbox selection
+            function updateBulkActionSection() {
+                const selectedCheckboxes = $('input.order-checkbox:checked');
+                const count = selectedCheckboxes.length;
                 
-                // Collect order IDs
-                const orderIds = selectedCheckboxes.map(function() {
-                    return $(this).val();
-                }).get();
-                $('#orderIds').val(JSON.stringify(orderIds));
-            } else {
-                $('#bulkActionForm').hide();
+                if (count > 0) {
+                    $('#bulkActionForm').show();
+                    $('#selectedCount').text(count);
+                    
+                    // Collect order IDs
+                    const orderIds = selectedCheckboxes.map(function() {
+                        return $(this).val();
+                    }).get();
+                    $('#orderIds').val(JSON.stringify(orderIds));
+                } else {
+                    $('#bulkActionForm').hide();
+                }
             }
-        }
 
-        // Listen to checkbox changes
-        $(document).on('change', 'input.order-checkbox', function() {
+            // Listen to checkbox changes
+            $(document).on('change', 'input.order-checkbox', function() {
+                updateBulkActionSection();
+            });
+
+            // Bulk update button
+            $('#bulkUpdateBtn').click(function() {
+                const status = $('#bulkStatus').val();
+                
+                if (!status) {
+                    alert('Please select a status to update');
+                    return;
+                }
+                
+                const count = $('input.order-checkbox:checked').length;
+                if (confirm('Are you sure you want to update ' + count + ' order(s) to ' + status + '?')) {
+                    $('#bulkActionForm').submit();
+                }
+            });
+
+            // Clear selection button
+            $('#clearSelectionBtn').click(function() {
+                $('input.order-checkbox').prop('checked', false);
+                updateBulkActionSection();
+            });
+
+            // Initialize on page load
             updateBulkActionSection();
-        });
 
-        // Bulk update button
-        $('#bulkUpdateBtn').click(function() {
-            const status = $('#bulkStatus').val();
-            
-            if (!status) {
-                alert('Please select a status to update');
-                return;
+            // Re-check checkboxes after DataTable redraws (search, sort, pagination)
+            try {
+                let table = $('#orders-table').DataTable();
+                table.on('draw.dt', function() {
+                    updateBulkActionSection();
+                });
+            } catch(e) {
+                console.log('DataTable not yet initialized');
             }
-            
-            const count = $('input.order-checkbox:checked').length;
-            if (confirm('Are you sure you want to update ' + count + ' order(s) to ' + status + '?')) {
-                $('#bulkActionForm').submit();
-            }
-        });
-
-        // Clear selection button
-        $('#clearSelectionBtn').click(function() {
-            $('input.order-checkbox').prop('checked', false);
-            updateBulkActionSection();
-        });
-
-        // Initialize on page load
-        updateBulkActionSection();
-
-        // Re-check checkboxes after DataTable redraws (search, sort, pagination)
-        let table = $('#orders-table').DataTable();
-        table.on('draw.dt', function() {
-            updateBulkActionSection();
-        });
+        }, 500);
     });
 </script>
 @endsection
