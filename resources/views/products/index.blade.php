@@ -159,23 +159,26 @@
         /* Product Card */
         .product-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
             height: 100%;
             display: flex;
             flex-direction: column;
+            border: 2px solid transparent;
+            position: relative;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
+            border-color: #667eea;
         }
 
         .product-image {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 200px;
+            height: 260px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -187,29 +190,42 @@
 
         .product-image i {
             opacity: 0.3;
+            font-size: 4.5rem;
         }
 
         .product-image img {
-            transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+            display: block;
         }
 
         .product-card:hover .product-image img {
-            transform: scale(1.05);
+            transform: scale(1.12) rotate(2deg);
         }
 
         .product-info {
-            padding: 1.5rem;
+            padding: 1.8rem;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
         }
 
         .product-name {
             font-weight: 700;
-            color: #333;
-            margin-bottom: 0.5rem;
+            color: #222;
+            margin-bottom: 0.8rem;
             text-decoration: none;
             transition: color 0.3s ease;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            min-height: 2.8rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-name:hover {
@@ -218,13 +234,15 @@
 
         .product-category {
             display: inline-block;
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            margin-bottom: 0.75rem;
+            padding: 0.45rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
             font-weight: 600;
+            width: fit-content;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.25);
         }
 
         .product-description {
@@ -232,53 +250,75 @@
             font-size: 0.9rem;
             margin-bottom: 1rem;
             flex-grow: 1;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .product-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 1rem;
-            border-top: 1px solid #f0f0f0;
+            padding-top: 1.2rem;
+            border-top: 2px solid #efefef;
+            gap: 0.75rem;
         }
 
         .product-price {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             font-weight: 700;
             color: #667eea;
+            white-space: nowrap;
         }
 
         .stock-badge {
             font-size: 0.85rem;
-            padding: 0.35rem 0.75rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .stock-badge.bg-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+        }
+
+        .stock-badge.bg-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
         }
 
         .btn-add-to-cart {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 5px;
+            padding: 0.65rem 1.3rem;
+            border-radius: 8px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
             cursor: pointer;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            white-space: nowrap;
         }
 
         .btn-add-to-cart:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
 
         .btn-add-to-cart:active {
-            transform: scale(0.98);
+            transform: translateY(0);
         }
 
         /* Grid Layout */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 2.5rem;
+            margin-top: 1rem;
             width: 100%;
             overflow-x: hidden;
         }
@@ -292,11 +332,23 @@
         .page-link {
             color: #667eea;
             border-color: #667eea;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            margin: 0 4px;
         }
 
         .page-link:hover {
             background-color: #667eea;
             border-color: #667eea;
+        }
+
+        .page-item.active .page-link {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+
+        .product-card:hover .product-edit-btn {
+            opacity: 1 !important;
         }
 
         .page-item.active .page-link {
@@ -391,41 +443,67 @@
 
         @media (max-width: 1200px) {
             .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 1.2rem;
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 2rem;
             }
         }
 
         @media (max-width: 768px) {
-            .auth-buttons {
-                flex-direction: column;
-                width: 100%;
-                margin-top: 1rem;
-            }
-
-            .btn-login, .btn-signup {
-                width: 100%;
-            }
-
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 1.5rem;
             }
 
-            .container-lg {
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
+            .product-image {
+                height: 200px !important;
+            }
+
+            .product-info {
+                padding: 1.2rem;
+            }
+
+            .product-name {
+                font-size: 1rem;
+            }
+
+            .product-price {
+                font-size: 1.4rem;
+            }
+
+            /* Collapse filters on mobile */
+            > div:nth-child(1) {
+                width: 100% !important;
+                margin-bottom: 2rem;
+            }
+
+            /* Full width products on mobile */
+            > div:nth-child(2) {
+                flex: 1;
+                min-width: 100% !important;
             }
         }
 
         @media (max-width: 480px) {
             .products-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
 
             .product-image {
-                height: 150px !important;
+                height: 160px !important;
+            }
+
+            .product-info {
+                padding: 1rem;
+            }
+
+            .product-name {
+                font-size: 0.95rem;
+            }
+
+            .btn-add-to-cart {
+                padding: 0.4rem 0.7rem;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -491,7 +569,7 @@
         </div>
     </nav>
 
-    <div class="container-lg py-4">
+    <div class="container-lg py-5">
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show">
                 <i class="bi bi-check-circle"></i> {{ session('success') }}
@@ -499,80 +577,91 @@
             </div>
         @endif
 
+        <!-- Page Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3rem;">
+            <div>
+                <h1 style="font-size: 2.5rem; font-weight: 700; color: #333; margin: 0;">Products</h1>
+                <p style="color: #666; margin: 0.5rem 0 0 0; font-size: 1.1rem;">Browse our collection</p>
+            </div>
+            @can('create', App\Models\Product::class)
+                <a href="{{ route('products.create') }}" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 0.8rem 1.8rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;">
+                    <i class="bi bi-plus-circle"></i> Add Product
+                </a>
+            @endcan
+        </div>
+
         <!-- Search Section -->
         <div class="search-section">
-            <form action="{{ route('products.index') }}" method="GET">
-                <div class="row g-2">
-                    <div class="col-md-6">
-                        <input type="text" name="search" class="form-control search-input" placeholder="🔍 Search for products..." value="{{ $search }}">
-                    </div>
-                    <div class="col-md-3">
-                        <select name="category" class="form-select">
-                            <option value="">All Categories</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $categoryId == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="bi bi-search"></i> Search
-                        </button>
-                    </div>
+            <form action="{{ route('products.index') }}" method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px;">
+                    <input type="text" name="search" class="form-control search-input" placeholder="🔍 Search for products..." value="{{ $search }}" style="border: 2px solid #667eea; border-radius: 25px; padding: 0.75rem 1.5rem; font-size: 1rem;">
                 </div>
+                <div style="min-width: 200px;">
+                    <select name="category" class="form-select" style="border: 2px solid #667eea; border-radius: 8px; padding: 0.75rem;">
+                        <option value="">All Categories</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ $categoryId == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 8px; padding: 0.75rem 1.5rem; font-weight: 600; white-space: nowrap;">
+                    <i class="bi bi-search"></i> Search
+                </button>
             </form>
         </div>
 
-        <div class="row">
-            <!-- Sidebar Filters -->
-            <div class="col-lg-3 mb-4">
-                <form action="{{ route('products.index') }}" method="GET">
-                    <div class="filter-card">
-                        <h6 class="filter-title"><i class="bi bi-cash-coin"></i> Price Range</h6>
-                        <div class="row g-2">
-                            <div class="col-6">
-                                <input type="number" name="min_price" class="form-control" placeholder="Min" value="{{ $minPrice }}" step="0.01">
+        <!-- Main Content Row -->
+        <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+            <!-- Sidebar Filters (Collapsible on Mobile) -->
+            <div style="width: 280px; flex-shrink: 0;">
+                <div style="position: sticky; top: 20px;">
+                    <form action="{{ route('products.index') }}" method="GET">
+                        <div class="filter-card">
+                            <h6 class="filter-title"><i class="bi bi-cash-coin"></i> Price Range</h6>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <input type="number" name="min_price" class="form-control" placeholder="Min" value="{{ $minPrice }}" step="0.01" style="border-radius: 6px;">
+                                <input type="number" name="max_price" class="form-control" placeholder="Max" value="{{ $maxPrice }}" step="0.01" style="border-radius: 6px;">
                             </div>
-                            <div class="col-6">
-                                <input type="number" name="max_price" class="form-control" placeholder="Max" value="{{ $maxPrice }}" step="0.01">
-                            </div>
+                            <button type="submit" class="btn btn-primary w-100 mt-2" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; border-radius: 6px; padding: 0.6rem;">Apply</button>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 mt-2">Apply Price Filter</button>
-                    </div>
 
-                    <div class="filter-card">
-                        <h6 class="filter-title"><i class="bi bi-sort-down"></i> Sort By</h6>
-                        <select name="sort" class="form-select" onchange="this.form.submit()">
-                            <option value="latest" {{ $sort == 'latest' ? 'selected' : '' }}>Latest Products</option>
-                            <option value="popular" {{ $sort == 'popular' ? 'selected' : '' }}>Most Popular</option>
-                            <option value="price_low" {{ $sort == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                            <option value="price_high" {{ $sort == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
-                        </select>
-                    </div>
+                        <div class="filter-card">
+                            <h6 class="filter-title"><i class="bi bi-sort-down"></i> Sort By</h6>
+                            <select name="sort" class="form-select" onchange="this.form.submit()" style="border-radius: 6px; border: 1px solid #ddd;">
+                                <option value="latest" {{ $sort == 'latest' ? 'selected' : '' }}>Latest Products</option>
+                                <option value="popular" {{ $sort == 'popular' ? 'selected' : '' }}>Most Popular</option>
+                                <option value="price_low" {{ $sort == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
+                                <option value="price_high" {{ $sort == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
+                            </select>
+                        </div>
 
-                    <div class="filter-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                        <p style="margin: 0; font-size: 0.9rem;"><strong>${{ number_format($minPriceAvailable, 2) }}</strong> to <strong>${{ number_format($maxPriceAvailable, 2) }}</strong></p>
-                    </div>
-                </form>
+                        <div class="filter-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px;">
+                            <p style="margin: 0; font-size: 0.95rem;"><i class="bi bi-tag"></i> <strong>${{ number_format($minPriceAvailable, 2) }}</strong> to <strong>${{ number_format($maxPriceAvailable, 2) }}</strong></p>
+                        </div>
+                    </form>
+                </div>
             </div>
 
-            <!-- Products Section -->
-            <div class="col-lg-9">
+            <!-- Products Section (Main) -->
+            <div style="flex: 1; min-width: 0;">
+                <!-- Results Info -->
+                <p style="color: #666; margin-bottom: 1.5rem; font-size: 1rem;"><strong>Showing {{ $products->count() }} of {{ $products->total() }} products</strong></p>
+
+                <!-- Products Grid -->
                 <div class="products-grid">
                     @forelse ($products as $product)
                         <div class="product-card">
                             <div class="product-image">
-                                @if($product->image_path)
-                                    <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                    <i class="bi bi-image" style="display: none;"></i>
+                                @if($product->image_path && !empty(trim($product->image_path)))
+                                    <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
                                     <i class="bi bi-image"></i>
                                 @endif
                                 @auth
                                     @if(Auth::user()->is_admin || Auth::user()->id === $product->user_id)
-                                        <div style="position: absolute; top: 5px; right: 5px;">
+                                        <div style="position: absolute; top: 10px; right: 10px; opacity: 0; transition: opacity 0.3s ease;" class="product-edit-btn">
                                             <a href="{{ route('products.edit-image', $product) }}" class="btn btn-sm btn-warning" title="Upload Image">
                                                 <i class="bi bi-image"></i>
                                             </a>
@@ -594,10 +683,9 @@
                                 </p>
 
                                 @if($product->stock > 0)
-                                    <span class="badge bg-success stock-badge">In Stock •  
-{{ $product->stock }}</span>
+                                    <span class="badge bg-success stock-badge"><i class="bi bi-check-circle"></i> In Stock • {{ $product->stock }}</span>
                                 @else
-                                    <span class="badge bg-danger stock-badge">Out of Stock</span>
+                                    <span class="badge bg-danger stock-badge"><i class="bi bi-x-circle"></i> Out of Stock</span>
                                 @endif
 
                                 <div class="product-footer">
@@ -626,7 +714,8 @@
                     @endforelse
                 </div>
 
-                <nav aria-label="Page navigation">
+                <!-- Pagination -->
+                <nav aria-label="Page navigation" style="margin-top: 2rem;">
                     {{ $products->links('pagination::bootstrap-5') }}
                 </nav>
             </div>
@@ -675,264 +764,3 @@
     </script>
 </body>
 </html>
-        <!-- Header -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <h1 class="h3 mb-0">Products</h1>
-                <p class="text-muted">Browse our collection</p>
-            </div>
-            <div class="col-md-6 text-end">
-                @can('create', App\Models\Product::class)
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus"></i> Add Product
-                    </a>
-                @endcan
-            </div>
-        </div>
-
-        <div class="row">
-            <!-- Sidebar Filters -->
-            <div class="col-md-3">
-                <div class="card bg-white mb-3">
-                    <div class="card-header bg-light">
-                        <h5 class="mb-0">Filters</h5>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('products.index') }}" method="GET" id="filterForm">
-                            <!-- Search -->
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Search</label>
-                                <input 
-                                    type="text" 
-                                    class="form-control" 
-                                    name="search" 
-                                    placeholder="Search products..."
-                                    value="{{ $search }}"
-                                    onchange="document.getElementById('filterForm').submit()"
-                                >
-                            </div>
-
-                            <!-- Category Filter -->
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Category</label>
-                                <select class="form-select" name="category" onchange="document.getElementById('filterForm').submit()">
-                                    <option value="">All Categories</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" {{ $categoryId == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Price Range Filter -->
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Price Range</label>
-                                <div class="row g-2">
-                                    <div class="col-6">
-                                        <input 
-                                            type="number" 
-                                            class="form-control" 
-                                            name="min_price" 
-                                            placeholder="Min"
-                                            value="{{ $minPrice }}"
-                                            step="0.01"
-                                        >
-                                    </div>
-                                    <div class="col-6">
-                                        <input 
-                                            type="number" 
-                                            class="form-control" 
-                                            name="max_price" 
-                                            placeholder="Max"
-                                            value="{{ $maxPrice }}"
-                                            step="0.01"
-                                        >
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-outline-primary mt-2 w-100">
-                                    Apply Price Filter
-                                </button>
-                            </div>
-
-                            <!-- Sort -->
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Sort By</label>
-                                <select class="form-select" name="sort" onchange="document.getElementById('filterForm').submit()">
-                                    <option value="latest" {{ $sort == 'latest' ? 'selected' : '' }}>Latest</option>
-                                    <option value="popular" {{ $sort == 'popular' ? 'selected' : '' }}>Popular</option>
-                                    <option value="price_low" {{ $sort == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                                    <option value="price_high" {{ $sort == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
-                                </select>
-                            </div>
-
-                            <!-- Items Per Page -->
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Per Page</label>
-                                <select class="form-select" name="per_page" onchange="document.getElementById('filterForm').submit()">
-                                    <option value="12">12 items</option>
-                                    <option value="24">24 items</option>
-                                    <option value="48">48 items</option>
-                                </select>
-                            </div>
-
-                            <!-- Clear Filters -->
-                            @if($search || $categoryId || $minPrice || $maxPrice)
-                                <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-secondary w-100">
-                                    Clear Filters
-                                </a>
-                            @endif
-                        </form>
-
-                        <!-- Price Range Info -->
-                        <div class="mt-4 p-3 bg-light rounded">
-                            <small class="text-muted">
-                                <strong>Available prices:</strong><br>
-                                ${{ number_format($minPriceAvailable, 2) }} - ${{ number_format($maxPriceAvailable, 2) }}
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Products Grid -->
-            <div class="col-md-9">
-                <!-- Active Filters Display -->
-                @if($search || $categoryId || $minPrice || $maxPrice)
-                    <div class="alert alert-info mb-3 d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>Active Filters:</strong>
-                            @if($search)
-                                <span class="badge bg-primary">Search: {{ $search }}</span>
-                            @endif
-                            @if($categoryId && $categories->find($categoryId))
-                                <span class="badge bg-info">Category: {{ $categories->find($categoryId)->name }}</span>
-                            @endif
-                            @if($minPrice)
-                                <span class="badge bg-success">Min: ${{ $minPrice }}</span>
-                            @endif
-                            @if($maxPrice)
-                                <span class="badge bg-warning">Max: ${{ $maxPrice }}</span>
-                            @endif
-                        </div>
-                        <a href="{{ route('products.index') }}" class="btn btn-sm btn-light">Clear all</a>
-                    </div>
-                @endif
-
-                <!-- Results Count -->
-                <p class="text-muted mb-3">
-                    Showing {{ $products->count() }} of {{ $products->total() }} products
-                </p>
-
-                <!-- Products Grid -->
-                @forelse ($products as $product)
-                    <div class="row mb-3">
-                        <div class="col-12">
-                            <div class="card h-100 shadow-sm hover-shadow transition">
-                                <div class="row g-0">
-                                    <!-- Product Image Placeholder -->
-                                    <div class="col-md-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 200px; display: flex; align-items: center; justify-content: center;">
-                                        <div class="text-white text-center">
-                                            <i class="bi bi-image" style="font-size: 3rem;"></i>
-                                            <p class="mt-2">No image</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Product Info -->
-                                    <div class="col-md-9">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h5 class="card-title">
-                                                        <a href="{{ route('products.show', $product) }}" class="text-decoration-none">
-                                                            {{ $product->name }}
-                                                        </a>
-                                                    </h5>
-
-                                                    <!-- Category Badge -->
-                                                    @if($product->category)
-                                                        <span class="badge bg-light text-dark mb-2">
-                                                            {{ $product->category->name }}
-                                                        </span>
-                                                    @endif
-
-                                                    <p class="card-text text-muted mb-2">
-                                                        {{ Str::limit($product->description, 150) }}
-                                                    </p>
-
-                                                    <!-- Stock Status -->
-                                                    <div class="mb-2">
-                                                        @if($product->stock > 0)
-                                                            <span class="badge bg-success">In Stock ({{ $product->stock }})</span>
-                                                        @else
-                                                            <span class="badge bg-danger">Out of Stock</span>
-                                                        @endif
-                                                    </div>
-
-                                                    <!-- Creator Info -->
-                                                    <small class="text-muted">
-                                                        <i class="bi bi-person"></i> By {{ $product->user->name }}
-                                                    </small>
-                                                </div>
-
-                                                <div class="col-md-4 text-end">
-                                                    <!-- Price -->
-                                                    <h4 class="text-primary mb-3">${{ number_format($product->price, 2) }}</h4>
-
-                                                    <!-- Actions -->
-                                                    <div class="btn-group-vertical w-100" role="group">
-                                                        <a href="{{ route('products.show', $product) }}" class="btn btn-outline-primary btn-sm">
-                                                            <i class="bi bi-eye"></i> View Details
-                                                        </a>
-
-                                                        @can('update', $product)
-                                                            <a href="{{ route('products.edit', $product) }}" class="btn btn-outline-warning btn-sm">
-                                                                <i class="bi bi-pencil"></i> Edit
-                                                            </a>
-                                                        @endcan
-
-                                                        @can('delete', $product)
-                                                            <form action="{{ route('products.destroy', $product) }}" method="POST" style="display: inline;">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="btn btn-outline-danger btn-sm w-100" onclick="return confirm('Are you sure?')">
-                                                                    <i class="bi bi-trash"></i> Delete
-                                                                </button>
-                                                            </form>
-                                                        @endcan
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="alert alert-warning">
-                        <h5>No products found</h5>
-                        <p>Try adjusting your filters or search terms.</p>
-                    </div>
-                @endforelse
-
-                <!-- Pagination -->
-                @if($products->hasPages())
-                    <nav class="mt-4">
-                        {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
-                    </nav>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CSS -->
-<style>
-.hover-shadow {
-    transition: box-shadow 0.3s ease;
-}
-.hover-shadow:hover {
-    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15) !important;
-}
-</style>

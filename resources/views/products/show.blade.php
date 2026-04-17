@@ -101,7 +101,7 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0; height: auto;">
                 <!-- Image -->
                 <div class="product-image">
-                    @if($product->image_path && file_exists(public_path($product->image_path)))
+                    @if($product->image_path)
                         <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}">
                     @else
                         <div style="text-align: center; color: white;">
@@ -225,7 +225,7 @@
                     @foreach($relatedProducts as $related)
                         <div class="related-card">
                             <div class="related-image">
-                                @if($related->image_path && file_exists(public_path($related->image_path)))
+                                @if($related->image_path)
                                     <img src="{{ asset($related->image_path) }}" alt="{{ $related->name }}" style="width: 100%; height: 100%; object-fit: cover;">
                                 @else
                                     <i class="bi bi-image" style="font-size: 3rem; opacity: 0.3;"></i>
