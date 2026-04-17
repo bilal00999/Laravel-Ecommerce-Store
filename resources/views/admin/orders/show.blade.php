@@ -67,10 +67,10 @@
                                 <tbody>
                                     @foreach ($order->items as $item)
                                         <tr>
-                                            <td>{{ $item->product_name ?? 'Product #' . $item->product_id }}</td>
+                                            <td>{{ $item->product->name ?? 'Product #' . $item->product_id }}</td>
                                             <td class="text-end">{{ $item->quantity }}</td>
-                                            <td class="text-end">${{ number_format($item->price, 2) }}</td>
-                                            <td class="text-end fw-semibold">${{ number_format($item->quantity * $item->price, 2) }}</td>
+                                            <td class="text-end">${{ number_format($item->unit_price, 2) }}</td>
+                                            <td class="text-end fw-semibold">${{ number_format($item->quantity * $item->unit_price, 2) }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
