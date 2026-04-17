@@ -434,86 +434,89 @@
     <!-- Navbar -->
     <nav class="navbar navbar-custom sticky-top">
         <div class="container-lg">
-            <a class="navbar-brand" href="{{ route('products.index') }}">
+            <a class="navbar-brand" href="<?php echo e(route('products.index')); ?>">
                 <i class="bi bi-bag-check"></i> E-Commerce Store
             </a>
 
             <div class="d-flex align-items-center gap-3">
-                <a href="{{ route('cart.index') }}" class="nav-link position-relative">
+                <a href="<?php echo e(route('cart.index')); ?>" class="nav-link position-relative">
                     <i class="bi bi-cart3" style="font-size: 1.3rem;"></i>
                     <span class="cart-badge" id="cartCount">0</span>
                 </a>
 
-                @auth
-                    <a href="{{ route('contact.show') }}" class="nav-link" title="Contact Us">
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+                    <a href="<?php echo e(route('contact.show')); ?>" class="nav-link" title="Contact Us">
                         <i class="bi bi-envelope" style="font-size: 1.2rem;"></i>
                     </a>
-                @endauth
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-                @auth
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                     <div class="user-menu position-relative">
                         <button class="nav-link dropdown-toggle" type="button" onclick="toggleUserMenu()" style="background: none; border: none;">
-                            <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
+                            <i class="bi bi-person-circle"></i> <?php echo e(auth()->user()->name); ?>
+
                         </button>
                         <div class="user-dropdown" id="userDropdown">
-                            <a href="{{ route('checkout.orders') }}">
+                            <a href="<?php echo e(route('checkout.orders')); ?>">
                                 <i class="bi bi-file-text"></i> My Orders
                             </a>
-                            <a href="{{ route('contact.history') }}">
+                            <a href="<?php echo e(route('contact.history')); ?>">
                                 <i class="bi bi-chat-dots"></i> Messages & Replies
                             </a>
-                            @if(auth()->user()->is_admin)
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->is_admin): ?>
                                 <hr style="margin: 0.5rem 0;">
-                                <a href="{{ route('admin.dashboard') }}">
+                                <a href="<?php echo e(route('admin.dashboard')); ?>">
                                     <i class="bi bi-gear"></i> Admin Panel
                                 </a>
                                 <hr style="margin: 0.5rem 0;">
-                            @endif
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <form action="<?php echo e(route('logout')); ?>" method="POST">
+                                <?php echo csrf_field(); ?>
                                 <button type="submit">
                                     <i class="bi bi-box-arrow-right"></i> Logout
                                 </button>
                             </form>
                         </div>
                     </div>
-                @else
+                <?php else: ?>
                     <div class="auth-buttons">
-                        <a href="{{ route('login') }}" class="btn btn-login btn-sm">
+                        <a href="<?php echo e(route('login')); ?>" class="btn btn-login btn-sm">
                             <i class="bi bi-box-arrow-in-right"></i> Login
                         </a>
-                        <a href="{{ route('register') }}" class="btn btn-signup btn-sm">
+                        <a href="<?php echo e(route('register')); ?>" class="btn btn-signup btn-sm">
                             <i class="bi bi-person-plus"></i> Sign Up
                         </a>
                     </div>
-                @endauth
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
         </div>
     </nav>
 
     <div class="container-lg py-4">
-        @if (session('success'))
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
             <div class="alert alert-success alert-dismissible fade show">
-                <i class="bi bi-check-circle"></i> {{ session('success') }}
+                <i class="bi bi-check-circle"></i> <?php echo e(session('success')); ?>
+
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-        @endif
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
         <!-- Search Section -->
         <div class="search-section">
-            <form action="{{ route('products.index') }}" method="GET">
+            <form action="<?php echo e(route('products.index')); ?>" method="GET">
                 <div class="row g-2">
                     <div class="col-md-6">
-                        <input type="text" name="search" class="form-control search-input" placeholder="🔍 Search for products..." value="{{ $search }}">
+                        <input type="text" name="search" class="form-control search-input" placeholder="🔍 Search for products..." value="<?php echo e($search); ?>">
                     </div>
                     <div class="col-md-3">
                         <select name="category" class="form-select">
                             <option value="">All Categories</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ $categoryId == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                                <option value="<?php echo e($category->id); ?>" <?php echo e($categoryId == $category->id ? 'selected' : ''); ?>>
+                                    <?php echo e($category->name); ?>
+
                                 </option>
-                            @endforeach
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -528,15 +531,15 @@
         <div class="row">
             <!-- Sidebar Filters -->
             <div class="col-lg-3 mb-4">
-                <form action="{{ route('products.index') }}" method="GET">
+                <form action="<?php echo e(route('products.index')); ?>" method="GET">
                     <div class="filter-card">
                         <h6 class="filter-title"><i class="bi bi-cash-coin"></i> Price Range</h6>
                         <div class="row g-2">
                             <div class="col-6">
-                                <input type="number" name="min_price" class="form-control" placeholder="Min" value="{{ $minPrice }}" step="0.01">
+                                <input type="number" name="min_price" class="form-control" placeholder="Min" value="<?php echo e($minPrice); ?>" step="0.01">
                             </div>
                             <div class="col-6">
-                                <input type="number" name="max_price" class="form-control" placeholder="Max" value="{{ $maxPrice }}" step="0.01">
+                                <input type="number" name="max_price" class="form-control" placeholder="Max" value="<?php echo e($maxPrice); ?>" step="0.01">
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100 mt-2">Apply Price Filter</button>
@@ -545,15 +548,15 @@
                     <div class="filter-card">
                         <h6 class="filter-title"><i class="bi bi-sort-down"></i> Sort By</h6>
                         <select name="sort" class="form-select" onchange="this.form.submit()">
-                            <option value="latest" {{ $sort == 'latest' ? 'selected' : '' }}>Latest Products</option>
-                            <option value="popular" {{ $sort == 'popular' ? 'selected' : '' }}>Most Popular</option>
-                            <option value="price_low" {{ $sort == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                            <option value="price_high" {{ $sort == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
+                            <option value="latest" <?php echo e($sort == 'latest' ? 'selected' : ''); ?>>Latest Products</option>
+                            <option value="popular" <?php echo e($sort == 'popular' ? 'selected' : ''); ?>>Most Popular</option>
+                            <option value="price_low" <?php echo e($sort == 'price_low' ? 'selected' : ''); ?>>Price: Low to High</option>
+                            <option value="price_high" <?php echo e($sort == 'price_high' ? 'selected' : ''); ?>>Price: High to Low</option>
                         </select>
                     </div>
 
                     <div class="filter-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                        <p style="margin: 0; font-size: 0.9rem;"><strong>${{ number_format($minPriceAvailable, 2) }}</strong> to <strong>${{ number_format($maxPriceAvailable, 2) }}</strong></p>
+                        <p style="margin: 0; font-size: 0.9rem;"><strong>$<?php echo e(number_format($minPriceAvailable, 2)); ?></strong> to <strong>$<?php echo e(number_format($maxPriceAvailable, 2)); ?></strong></p>
                     </div>
                 </form>
             </div>
@@ -561,72 +564,75 @@
             <!-- Products Section -->
             <div class="col-lg-9">
                 <div class="products-grid">
-                    @forelse ($products as $product)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                         <div class="product-card">
                             <div class="product-image">
-                                @if($product->image_path && file_exists(public_path($product->image_path)))
-                                    <img src="{{ asset($product->image_path) }}" alt="{{ $product->name }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                @else
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($product->image_path && file_exists(public_path($product->image_path))): ?>
+                                    <img src="<?php echo e(asset($product->image_path)); ?>" alt="<?php echo e($product->name); ?>" style="width: 100%; height: 100%; object-fit: cover;">
+                                <?php else: ?>
                                     <i class="bi bi-image"></i>
-                                @endif
-                                @auth
-                                    @if(Auth::user()->is_admin || Auth::user()->id === $product->user_id)
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(Auth::user()->is_admin || Auth::user()->id === $product->user_id): ?>
                                         <div style="position: absolute; top: 5px; right: 5px;">
-                                            <a href="{{ route('products.edit-image', $product) }}" class="btn btn-sm btn-warning" title="Upload Image">
+                                            <a href="<?php echo e(route('products.edit-image', $product)); ?>" class="btn btn-sm btn-warning" title="Upload Image">
                                                 <i class="bi bi-image"></i>
                                             </a>
                                         </div>
-                                    @endif
-                                @endauth
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                             </div>
                             <div class="product-info">
-                                <a href="{{ route('products.show', $product) }}" class="product-name">
-                                    {{ $product->name }}
+                                <a href="<?php echo e(route('products.show', $product)); ?>" class="product-name">
+                                    <?php echo e($product->name); ?>
+
                                 </a>
 
-                                @if($product->category)
-                                    <span class="product-category">{{ $product->category->name }}</span>
-                                @endif
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($product->category): ?>
+                                    <span class="product-category"><?php echo e($product->category->name); ?></span>
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                 <p class="product-description">
-                                    {{ Str::limit($product->description, 100) }}
+                                    <?php echo e(Str::limit($product->description, 100)); ?>
+
                                 </p>
 
-                                @if($product->stock > 0)
+                                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($product->stock > 0): ?>
                                     <span class="badge bg-success stock-badge">In Stock •  
-{{ $product->stock }}</span>
-                                @else
+<?php echo e($product->stock); ?></span>
+                                <?php else: ?>
                                     <span class="badge bg-danger stock-badge">Out of Stock</span>
-                                @endif
+                                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                 <div class="product-footer">
-                                    <span class="product-price">${{ number_format($product->price, 2) }}</span>
-                                    @if($product->stock > 0)
-                                        <form action="{{ route('cart.add', $product) }}" method="POST" style="display: inline;">
-                                            @csrf
+                                    <span class="product-price">$<?php echo e(number_format($product->price, 2)); ?></span>
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($product->stock > 0): ?>
+                                        <form action="<?php echo e(route('cart.add', $product)); ?>" method="POST" style="display: inline;">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="quantity" value="1">
                                             <button type="submit" class="btn btn-add-to-cart btn-sm">
                                                 <i class="bi bi-cart-plus"></i> Add
                                             </button>
                                         </form>
-                                    @endif
+                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                 </div>
                             </div>
                         </div>
-                    @empty
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                         <div class="empty-state">
                             <i class="bi bi-inbox"></i>
                             <h3>No Products Found</h3>
                             <p>Try adjusting your filters</p>
-                            <a href="{{ route('products.index') }}" class="btn btn-primary mt-3">
+                            <a href="<?php echo e(route('products.index')); ?>" class="btn btn-primary mt-3">
                                 <i class="bi bi-arrow-left"></i> View All
                             </a>
                         </div>
-                    @endforelse
+                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                 </div>
 
                 <nav aria-label="Page navigation">
-                    {{ $products->links('pagination::bootstrap-5') }}
+                    <?php echo e($products->links('pagination::bootstrap-5')); ?>
+
                 </nav>
             </div>
         </div>
@@ -660,7 +666,7 @@
         });
 
         function updateCartCount() {
-            fetch('{{ route("cart.count") }}')
+            fetch('<?php echo e(route("cart.count")); ?>')
                 .then(r => r.json())
                 .then(d => document.getElementById('cartCount').textContent = d.count);
         }
@@ -681,11 +687,11 @@
                 <p class="text-muted">Browse our collection</p>
             </div>
             <div class="col-md-6 text-end">
-                @can('create', App\Models\Product::class)
-                    <a href="{{ route('products.create') }}" class="btn btn-primary">
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create', App\Models\Product::class)): ?>
+                    <a href="<?php echo e(route('products.create')); ?>" class="btn btn-primary">
                         <i class="bi bi-plus"></i> Add Product
                     </a>
-                @endcan
+                <?php endif; ?>
             </div>
         </div>
 
@@ -697,7 +703,7 @@
                         <h5 class="mb-0">Filters</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('products.index') }}" method="GET" id="filterForm">
+                        <form action="<?php echo e(route('products.index')); ?>" method="GET" id="filterForm">
                             <!-- Search -->
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Search</label>
@@ -706,7 +712,7 @@
                                     class="form-control" 
                                     name="search" 
                                     placeholder="Search products..."
-                                    value="{{ $search }}"
+                                    value="<?php echo e($search); ?>"
                                     onchange="document.getElementById('filterForm').submit()"
                                 >
                             </div>
@@ -716,11 +722,12 @@
                                 <label class="form-label fw-bold">Category</label>
                                 <select class="form-select" name="category" onchange="document.getElementById('filterForm').submit()">
                                     <option value="">All Categories</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}" {{ $categoryId == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
+                                        <option value="<?php echo e($category->id); ?>" <?php echo e($categoryId == $category->id ? 'selected' : ''); ?>>
+                                            <?php echo e($category->name); ?>
+
                                         </option>
-                                    @endforeach
+                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                                 </select>
                             </div>
 
@@ -734,7 +741,7 @@
                                             class="form-control" 
                                             name="min_price" 
                                             placeholder="Min"
-                                            value="{{ $minPrice }}"
+                                            value="<?php echo e($minPrice); ?>"
                                             step="0.01"
                                         >
                                     </div>
@@ -744,7 +751,7 @@
                                             class="form-control" 
                                             name="max_price" 
                                             placeholder="Max"
-                                            value="{{ $maxPrice }}"
+                                            value="<?php echo e($maxPrice); ?>"
                                             step="0.01"
                                         >
                                     </div>
@@ -758,10 +765,10 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Sort By</label>
                                 <select class="form-select" name="sort" onchange="document.getElementById('filterForm').submit()">
-                                    <option value="latest" {{ $sort == 'latest' ? 'selected' : '' }}>Latest</option>
-                                    <option value="popular" {{ $sort == 'popular' ? 'selected' : '' }}>Popular</option>
-                                    <option value="price_low" {{ $sort == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
-                                    <option value="price_high" {{ $sort == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
+                                    <option value="latest" <?php echo e($sort == 'latest' ? 'selected' : ''); ?>>Latest</option>
+                                    <option value="popular" <?php echo e($sort == 'popular' ? 'selected' : ''); ?>>Popular</option>
+                                    <option value="price_low" <?php echo e($sort == 'price_low' ? 'selected' : ''); ?>>Price: Low to High</option>
+                                    <option value="price_high" <?php echo e($sort == 'price_high' ? 'selected' : ''); ?>>Price: High to Low</option>
                                 </select>
                             </div>
 
@@ -776,18 +783,19 @@
                             </div>
 
                             <!-- Clear Filters -->
-                            @if($search || $categoryId || $minPrice || $maxPrice)
-                                <a href="{{ route('products.index') }}" class="btn btn-sm btn-outline-secondary w-100">
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($search || $categoryId || $minPrice || $maxPrice): ?>
+                                <a href="<?php echo e(route('products.index')); ?>" class="btn btn-sm btn-outline-secondary w-100">
                                     Clear Filters
                                 </a>
-                            @endif
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </form>
 
                         <!-- Price Range Info -->
                         <div class="mt-4 p-3 bg-light rounded">
                             <small class="text-muted">
                                 <strong>Available prices:</strong><br>
-                                ${{ number_format($minPriceAvailable, 2) }} - ${{ number_format($maxPriceAvailable, 2) }}
+                                $<?php echo e(number_format($minPriceAvailable, 2)); ?> - $<?php echo e(number_format($maxPriceAvailable, 2)); ?>
+
                             </small>
                         </div>
                     </div>
@@ -797,34 +805,34 @@
             <!-- Products Grid -->
             <div class="col-md-9">
                 <!-- Active Filters Display -->
-                @if($search || $categoryId || $minPrice || $maxPrice)
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($search || $categoryId || $minPrice || $maxPrice): ?>
                     <div class="alert alert-info mb-3 d-flex justify-content-between align-items-center">
                         <div>
                             <strong>Active Filters:</strong>
-                            @if($search)
-                                <span class="badge bg-primary">Search: {{ $search }}</span>
-                            @endif
-                            @if($categoryId && $categories->find($categoryId))
-                                <span class="badge bg-info">Category: {{ $categories->find($categoryId)->name }}</span>
-                            @endif
-                            @if($minPrice)
-                                <span class="badge bg-success">Min: ${{ $minPrice }}</span>
-                            @endif
-                            @if($maxPrice)
-                                <span class="badge bg-warning">Max: ${{ $maxPrice }}</span>
-                            @endif
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($search): ?>
+                                <span class="badge bg-primary">Search: <?php echo e($search); ?></span>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($categoryId && $categories->find($categoryId)): ?>
+                                <span class="badge bg-info">Category: <?php echo e($categories->find($categoryId)->name); ?></span>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($minPrice): ?>
+                                <span class="badge bg-success">Min: $<?php echo e($minPrice); ?></span>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($maxPrice): ?>
+                                <span class="badge bg-warning">Max: $<?php echo e($maxPrice); ?></span>
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
-                        <a href="{{ route('products.index') }}" class="btn btn-sm btn-light">Clear all</a>
+                        <a href="<?php echo e(route('products.index')); ?>" class="btn btn-sm btn-light">Clear all</a>
                     </div>
-                @endif
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                 <!-- Results Count -->
                 <p class="text-muted mb-3">
-                    Showing {{ $products->count() }} of {{ $products->total() }} products
+                    Showing <?php echo e($products->count()); ?> of <?php echo e($products->total()); ?> products
                 </p>
 
                 <!-- Products Grid -->
-                @forelse ($products as $product)
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__empty_1 = true; $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                     <div class="row mb-3">
                         <div class="col-12">
                             <div class="card h-100 shadow-sm hover-shadow transition">
@@ -843,62 +851,66 @@
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <h5 class="card-title">
-                                                        <a href="{{ route('products.show', $product) }}" class="text-decoration-none">
-                                                            {{ $product->name }}
+                                                        <a href="<?php echo e(route('products.show', $product)); ?>" class="text-decoration-none">
+                                                            <?php echo e($product->name); ?>
+
                                                         </a>
                                                     </h5>
 
                                                     <!-- Category Badge -->
-                                                    @if($product->category)
+                                                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($product->category): ?>
                                                         <span class="badge bg-light text-dark mb-2">
-                                                            {{ $product->category->name }}
+                                                            <?php echo e($product->category->name); ?>
+
                                                         </span>
-                                                    @endif
+                                                    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                                                     <p class="card-text text-muted mb-2">
-                                                        {{ Str::limit($product->description, 150) }}
+                                                        <?php echo e(Str::limit($product->description, 150)); ?>
+
                                                     </p>
 
                                                     <!-- Stock Status -->
                                                     <div class="mb-2">
-                                                        @if($product->stock > 0)
-                                                            <span class="badge bg-success">In Stock ({{ $product->stock }})</span>
-                                                        @else
+                                                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($product->stock > 0): ?>
+                                                            <span class="badge bg-success">In Stock (<?php echo e($product->stock); ?>)</span>
+                                                        <?php else: ?>
                                                             <span class="badge bg-danger">Out of Stock</span>
-                                                        @endif
+                                                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                                                     </div>
 
                                                     <!-- Creator Info -->
                                                     <small class="text-muted">
-                                                        <i class="bi bi-person"></i> By {{ $product->user->name }}
+                                                        <i class="bi bi-person"></i> By <?php echo e($product->user->name); ?>
+
                                                     </small>
                                                 </div>
 
                                                 <div class="col-md-4 text-end">
                                                     <!-- Price -->
-                                                    <h4 class="text-primary mb-3">${{ number_format($product->price, 2) }}</h4>
+                                                    <h4 class="text-primary mb-3">$<?php echo e(number_format($product->price, 2)); ?></h4>
 
                                                     <!-- Actions -->
                                                     <div class="btn-group-vertical w-100" role="group">
-                                                        <a href="{{ route('products.show', $product) }}" class="btn btn-outline-primary btn-sm">
+                                                        <a href="<?php echo e(route('products.show', $product)); ?>" class="btn btn-outline-primary btn-sm">
                                                             <i class="bi bi-eye"></i> View Details
                                                         </a>
 
-                                                        @can('update', $product)
-                                                            <a href="{{ route('products.edit', $product) }}" class="btn btn-outline-warning btn-sm">
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('update', $product)): ?>
+                                                            <a href="<?php echo e(route('products.edit', $product)); ?>" class="btn btn-outline-warning btn-sm">
                                                                 <i class="bi bi-pencil"></i> Edit
                                                             </a>
-                                                        @endcan
+                                                        <?php endif; ?>
 
-                                                        @can('delete', $product)
-                                                            <form action="{{ route('products.destroy', $product) }}" method="POST" style="display: inline;">
-                                                                @csrf
-                                                                @method('DELETE')
+                                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete', $product)): ?>
+                                                            <form action="<?php echo e(route('products.destroy', $product)); ?>" method="POST" style="display: inline;">
+                                                                <?php echo csrf_field(); ?>
+                                                                <?php echo method_field('DELETE'); ?>
                                                                 <button type="submit" class="btn btn-outline-danger btn-sm w-100" onclick="return confirm('Are you sure?')">
                                                                     <i class="bi bi-trash"></i> Delete
                                                                 </button>
                                                             </form>
-                                                        @endcan
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -908,19 +920,20 @@
                             </div>
                         </div>
                     </div>
-                @empty
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                     <div class="alert alert-warning">
                         <h5>No products found</h5>
                         <p>Try adjusting your filters or search terms.</p>
                     </div>
-                @endforelse
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
                 <!-- Pagination -->
-                @if($products->hasPages())
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($products->hasPages()): ?>
                     <nav class="mt-4">
-                        {{ $products->appends(request()->query())->links('pagination::bootstrap-4') }}
+                        <?php echo e($products->appends(request()->query())->links('pagination::bootstrap-4')); ?>
+
                     </nav>
-                @endif
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
         </div>
     </div>
@@ -935,3 +948,4 @@
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15) !important;
 }
 </style>
+<?php /**PATH C:\laragon\www\ecommerce_store\resources\views/products/index.blade.php ENDPATH**/ ?>
