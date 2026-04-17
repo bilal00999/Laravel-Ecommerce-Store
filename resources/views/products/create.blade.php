@@ -4,27 +4,10 @@
 @section('page-title', 'Create Product')
 
 @section('content')
-<div class="container-fluid" style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
-    <!-- Back Button -->
-    <div class="mb-4">
-        <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Back to Products
-        </a>
-    </div>
-
-    <!-- Permission Check -->
-    @unless (auth()->user() && (auth()->user()->is_admin || auth()->user()->role === 'admin'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle"></i> <strong>Permission Denied</strong><br>
-            Only administrators can create products.
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endunless
-
-    <!-- Form Card -->
+<div class="container-fluid">
     <div class="card shadow-lg border-0">
-        <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem;">
-            <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Add New Product</h5>
+        <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem;">
+            <h4 class="mb-0"><i class="bi bi-plus-circle"></i> Add New Product</h4>
         </div>
         <div class="card-body p-4">
             <form action="{{ route('products.store') }}" method="POST">
@@ -134,19 +117,18 @@
 
                         <!-- Info Box -->
                         <div class="alert alert-info">
-                            <h6 class="alert-heading"><i class="bi bi-info-circle"></i> Product Info</h6>
-                            <small>Fill in all required fields marked with <span class="text-danger">*</span> to create a new product.</small>
+                            <h6 class="alert-heading"><i class="bi bi-info-circle"></i> Required Fields</h6>
+                            <small>Fill in all required fields marked with <span class="text-danger">*</span></small>
                         </div>
                     </div>
                 </div>
 
-                <!-- Form Actions -->
-                <div class="mt-5 pt-3 border-top">
-                    <div class="d-flex gap-2">
+                <div class="row mt-4">
+                    <div class="col-lg-8">
                         <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-check-circle"></i> Create Product
+                            <i class="bi bi-plus-circle"></i> Create Product
                         </button>
-                        <a href="{{ route('admin.products.index') }}" class="btn btn-outline-secondary btn-lg">
+                        <a href="{{ route('admin.products.index') }}" class="btn btn-secondary btn-lg">
                             <i class="bi bi-x-circle"></i> Cancel
                         </a>
                     </div>
