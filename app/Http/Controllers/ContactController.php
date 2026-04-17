@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\ContactMessage;
 use App\Http\Requests\StoreContactMessageRequest;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ContactController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * Display the contact form (GET /contact).
      * Only accessible to authenticated users via 'auth' middleware.
@@ -62,16 +64,16 @@ class ContactController extends Controller
      * Show a single contact message (optional).
      * GET /contact/{contactMessage} - View details of a submitted message
      */
-    public function showMessage(ContactMessage $message)
+    public function showMessage(ContactMessage $contactMessage)
     {
         // Authorize: User can only view their own messages
-        $this->authorize('view', $message);
+        $this->authorize('view', $contactMessage);
 
         // Mark as read if still pending
-        if ($message->status === 'pending') {
-            $message->markAsRead();
+        if ($contactMessage->status === 'pending') {
+            $contactMessage->markAsRead();
         }
 
-        return view('contact.message-detail', ['message' => $message]);
+        return view('contact.message-detail', ['message' => $contactMessage]);
     }
 }

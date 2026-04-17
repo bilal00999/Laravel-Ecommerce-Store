@@ -5,8 +5,10 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Product;
+use App\Models\ContactMessage;
 use App\Models\User;
 use App\Policies\ProductPolicy;
+use App\Policies\ContactMessagePolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Product::class => ProductPolicy::class,
+        ContactMessage::class => ContactMessagePolicy::class,
     ];
 
     /**
