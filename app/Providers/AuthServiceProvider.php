@@ -67,7 +67,7 @@ class AuthServiceProvider extends ServiceProvider
          * Check if user can view analytics (admin and moderator)
          */
         Gate::define('view-analytics', function (User $user) {
-            return in_array($user->role, ['admin', 'moderator']);
+            return in_array($user->role, ['admin', 'moderator']) || $user->is_admin;
         });
     }
 }
