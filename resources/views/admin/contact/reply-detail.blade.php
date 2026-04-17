@@ -64,7 +64,11 @@
                     </h5>
                 </div>
                 <div style="padding: 2rem; color: #666; line-height: 1.8; white-space: pre-wrap; min-height: 150px; background: #fafafa; border-radius: 0 0 6px 6px;">
-                    {{ $contactMessage->message }}
+                    @if($contactMessage->message)
+                        {!! nl2br(e($contactMessage->message)) !!}
+                    @else
+                        <em style="color: #999;">No message content</em>
+                    @endif
                 </div>
             </div>
         </div>
