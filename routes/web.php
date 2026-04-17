@@ -125,11 +125,11 @@ Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin'
 
 // Public product listing - Everyone can view
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Product management - Requires authentication and policies
 Route::middleware('auth')->group(function () {
     // Create product - Only if policy allows (admin users)
+    // Must come BEFORE the {product} parameter route
     // ProductPolicy::create() checks: user->role === 'admin'
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
@@ -147,6 +147,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/products/{product}/upload-image', [ProductImageController::class, 'edit'])->name('products.edit-image');
     Route::post('/products/{product}/upload-image', [ProductImageController::class, 'store'])->name('products.upload-image');
 });
+
+// Show product - Anyone can view (must come AFTER /products/create to avoid conflicts)
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // ============================================================
 // SHOPPING CART ROUTES
