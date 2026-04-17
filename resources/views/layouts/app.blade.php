@@ -19,6 +19,18 @@
             font-size: 1.5rem;
             color: white !important;
         }
+        .navbar-custom .nav-link {
+            color: white !important;
+        }
+        .navbar-custom .nav-link:hover {
+            color: #f0f0f0 !important;
+        }
+        .navbar-custom .btn-link {
+            color: white !important;
+        }
+        .navbar-custom .btn-link:hover {
+            color: #f0f0f0 !important;
+        }
     </style>
     @yield('styles')
 </head>
