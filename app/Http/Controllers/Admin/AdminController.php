@@ -110,4 +110,46 @@ class AdminController extends Controller
         return $dataTable->dataTable($dataTable->query(new \App\Models\Product()))
             ->make(true);
     }
+
+    /**
+     * Show order details page
+     */
+    public function showOrder(\App\Models\Order $order)
+    {
+        $order->load('user', 'items');
+        return view('admin.orders.show', compact('order'));
+    }
+
+    /**
+     * Update order status
+     */
+    public function updateOrder(Request $request, \App\Models\Order $order)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:pending,processing,completed,cancelled',
+        ]);
+
+        $order->update(['status' => $validated['status']]);
+
+        return redirect()->route('admin.orders.show', $order)
+            ->with('success', 'Order status updated successfully.');
+    }
+
+    /**
+     * Bulk update order status
+     */
+    public function bulkUpdateOrders(Request $request)
+    {
+        $validated = $request->validate([
+            'order_ids' => 'required|array',
+            'order_ids.*' => 'integer|exists:orders,id',
+            'status' => 'required|in:pending,processing,completed,cancelled',
+        ]);
+
+        \App\Models\Order::whereIn('id', $validated['order_ids'])
+            ->update(['status' => $validated['status']]);
+
+        return redirect()->route('admin.orders.index')
+            ->with('success', 'Orders updated successfully.');
+    }
 }

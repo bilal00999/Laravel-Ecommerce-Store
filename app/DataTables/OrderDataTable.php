@@ -20,14 +20,18 @@ class OrderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('checkbox', function ($row) {
+                return '<input type="checkbox" class="order-checkbox" value="' . $row->id . '">';
+            })
             ->addColumn('customer_name', function ($row) {
                 return $row->user ? $row->user->name : 'Guest';
             })
             ->addColumn('action', function ($row) {
+                $detailUrl = route('admin.orders.show', $row->id);
                 return '<div style="display: flex; gap: 5px; justify-content: center;">
-                    <button class="btn btn-sm btn-info" title="View Details" onclick="alert(\'View order #' . $row->id . '\')">
+                    <a href="' . $detailUrl . '" class="btn btn-sm btn-info" title="View Details">
                         <i class="bi bi-eye"></i>
-                    </button>
+                    </a>
                 </div>';
             })
             ->setRowId('id')
@@ -47,7 +51,7 @@ class OrderDataTable extends DataTable
             ->editColumn('created_at', function ($row) {
                 return $row->created_at->format('M d, Y H:i');
             })
-            ->rawColumns(['status', 'action']);
+            ->rawColumns(['checkbox', 'status', 'action']);
     }
 
     /**
@@ -84,6 +88,13 @@ class OrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+            Column::computed('checkbox')
+                ->exportable(false)
+                ->printable(false)
+                ->searchable(false)
+                ->orderable(false)
+                ->width(50)
+                ->addClass('text-center'),
             Column::make('id')
                 ->searchable(false),
             Column::computed('customer_name')

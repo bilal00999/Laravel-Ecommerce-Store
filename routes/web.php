@@ -70,6 +70,9 @@ Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin'
     
     // Orders
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
+    Route::get('/orders/{order}', [AdminController::class, 'showOrder'])->name('orders.show');
+    Route::put('/orders/{order}', [AdminController::class, 'updateOrder'])->name('orders.update');
+    Route::post('/orders/bulk-update', [AdminController::class, 'bulkUpdateOrders'])->name('orders.bulk-update');
     
     // Products
     Route::get('/products', [AdminController::class, 'products'])->name('products.index');
