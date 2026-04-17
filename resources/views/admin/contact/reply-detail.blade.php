@@ -25,31 +25,31 @@
                     <div style="margin-bottom: 1.5rem;">
                         <label style="color: #999; font-size: 0.85rem; font-weight: 700;">FROM</label>
                         <div style="margin-top: 0.5rem;">
-                            <strong style="font-size: 1.1rem;">{{ $message->user->name }}</strong><br>
-                            <a href="mailto:{{ $message->email }}" style="color: #667eea; text-decoration: none;">{{ $message->email }}</a>
-                            @if($message->phone)
-                                <br><a href="tel:{{ $message->phone }}" style="color: #667eea; text-decoration: none;">{{ $message->phone }}</a>
+                            <strong style="font-size: 1.1rem;">{{ $contactMessage->user->name }}</strong><br>
+                            <a href="mailto:{{ $contactMessage->email }}" style="color: #667eea; text-decoration: none;">{{ $contactMessage->email }}</a>
+                            @if($contactMessage->phone)
+                                <br><a href="tel:{{ $contactMessage->phone }}" style="color: #667eea; text-decoration: none;">{{ $contactMessage->phone }}</a>
                             @endif
                         </div>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
                         <label style="color: #999; font-size: 0.85rem; font-weight: 700;">SUBJECT</label>
-                        <div style="margin-top: 0.5rem; font-size: 1.1rem; font-weight: 600;">{{ $message->subject }}</div>
+                        <div style="margin-top: 0.5rem; font-size: 1.1rem; font-weight: 600;">{{ $contactMessage->subject }}</div>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
                         <label style="color: #999; font-size: 0.85rem; font-weight: 700;">DATE</label>
                         <div style="margin-top: 0.5rem; color: #666;">
-                            {{ $message->created_at->format('M d, Y g:i A') }}
+                            {{ $contactMessage->created_at->format('M d, Y g:i A') }}
                         </div>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
                         <label style="color: #999; font-size: 0.85rem; font-weight: 700;">STATUS</label>
                         <div style="margin-top: 0.5rem;">
-                            <span class="badge-status badge-{{ $message->status }}" style="display: inline-block;">
-                                {{ ucfirst($message->status) }}
+                            <span class="badge-status badge-{{ $contactMessage->status }}" style="display: inline-block;">
+                                {{ ucfirst($contactMessage->status) }}
                             </span>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                     </h5>
                 </div>
                 <div style="padding: 2rem; color: #666; line-height: 1.8; white-space: pre-wrap;">
-                    {{ $message->message }}
+                    {{ $contactMessage->message }}
                 </div>
             </div>
         </div>
@@ -77,18 +77,18 @@
                         <i class="bi bi-reply"></i> Send Reply
                     </h5>
                 </div>
-                <form action="{{ route('admin.contact.reply.store', $message) }}" method="POST" style="padding: 2rem;">
+                <form action="{{ route('admin.contact.reply.store', $contactMessage) }}" method="POST" style="padding: 2rem;">
                     @csrf
 
                     <!-- Admin Reply -->
                     <div style="margin-bottom: 1.5rem;">
-                        <label for="admin_reply" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
+                        <label for="reply" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">
                             Your Reply *
                         </label>
-                        <textarea name="admin_reply" id="admin_reply" rows="8" required
+                        <textarea name="reply" id="reply" rows="8" required
                                   style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 6px; font-family: inherit; font-size: 0.95rem;"
-                                  placeholder="Type your reply here...">{{ old('admin_reply') }}</textarea>
-                        @error('admin_reply')
+                                  placeholder="Type your reply here...">{{ old('reply') }}</textarea>
+                        @error('reply')
                             <small style="color: #f44336; display: block; margin-top: 0.3rem;">{{ $message }}</small>
                         @enderror
                     </div>
@@ -106,15 +106,15 @@
             </div>
 
             <!-- Previous Reply (if exists) -->
-            @if($message->admin_reply)
+            @if($contactMessage->admin_reply)
                 <div class="data-table" style="margin-top: 2rem; background: #f0f7ff; border: 1px solid #cfe2ff;">
                     <div style="padding: 1.5rem 2rem; background: #cfe2ff; border-bottom: 1px solid #cfe2ff;">
                         <h5 style="margin: 0; font-weight: 700; color: #084298;">
-                            <i class="bi bi-check2-all"></i> Previous Reply ({{ $message->replied_at?->format('M d, Y g:i A') }})
+                            <i class="bi bi-check2-all"></i> Previous Reply ({{ $contactMessage->replied_at?->format('M d, Y g:i A') }})
                         </h5>
                     </div>
                     <div style="padding: 2rem; color: #084298; line-height: 1.8; white-space: pre-wrap;">
-                        {{ $message->admin_reply }}
+                        {{ $contactMessage->admin_reply }}
                     </div>
                 </div>
             @endif
