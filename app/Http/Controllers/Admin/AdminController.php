@@ -60,7 +60,15 @@ class AdminController extends Controller
         // The DataTable JavaScript will then make AJAX calls to the datatable endpoint
         return $dataTable->render('orders.datatables');
     }
-
+    /**
+     * Display products index (placeholder for products page).
+     */
+    public function products(ProductDataTable $dataTable)
+    {
+        // This returns the view which will initialize the DataTable
+        // The DataTable JavaScript will then make AJAX calls to the datatable endpoint
+        return $dataTable->render('products.datatables');
+    }
     /**
      * Display Orders DataTable (AJAX endpoint returning JSON).
      */
@@ -99,6 +107,7 @@ class AdminController extends Controller
      */
     public function productsDataTable(ProductDataTable $dataTable)
     {
-        return $dataTable->render('products.datatables');
+        return $dataTable->dataTable($dataTable->query(new \App\Models\Product()))
+            ->make(true);
     }
 }

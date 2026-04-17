@@ -1,26 +1,19 @@
-@extends('layouts.app')
+@extends('admin.layout')
+
+@section('title', 'Products')
+@section('page-title', 'Products')
 
 @section('content')
-<div class="container-fluid mt-5">
-    <div class="row mb-4">
-        <div class="col-md-8">
-            <h1 class="h3 mb-0">Products</h1>
-        </div>
-        <div class="col-md-4 text-end">
-            <a href="{{ route('products.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Add Product
-            </a>
-        </div>
-    </div>
-
-    <div class="card shadow">
+<div class="admin-content">
+    <div class="card" style="max-width: 1200px; margin: 0 auto;">
         <div class="card-body">
             {{ $dataTable->table(['class' => 'table table-striped table-hover']) }}
         </div>
     </div>
 </div>
+@endsection
 
-<!-- DataTables CSS -->
+@section('scripts')
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
 

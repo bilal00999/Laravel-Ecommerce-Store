@@ -192,7 +192,7 @@
                 </a></li>
 
                 <div class="sidebar-menu-title">Content</div>
-                <li><a href="{{ route('admin.products.datatable') }}" class="@if(request()->routeIs('admin.products.datatable')) active @endif">
+                <li><a href="{{ route('admin.products.index') }}" class="@if(request()->routeIs('admin.products.index')) active @endif">
                     <i class="bi bi-box-seam"></i> Products (DataTable)
                 </a></li>
                 <li><a href="{{ route('products.index') }}">

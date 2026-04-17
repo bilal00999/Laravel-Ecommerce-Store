@@ -54,7 +54,7 @@ class ProductDataTable extends DataTable
         return $this->builder()
             ->setTableId('products-table')
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('admin.products.datatable'))
             ->dom('Bfrtip')
             ->orderBy(0, 'desc')
             ->selectStyleSingle()
@@ -63,9 +63,7 @@ class ProductDataTable extends DataTable
                 Button::make('excel'),
                 Button::make('csv'),
                 Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
+                Button::make('print')
             ]);
     }
 
