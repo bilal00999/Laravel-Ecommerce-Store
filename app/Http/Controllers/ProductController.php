@@ -236,8 +236,7 @@ class ProductController extends Controller
      */
     public function settingsPage()
     {
-        \Illuminate\Support\Facades\Gate::authorize('manage-settings');
-
+        // Temporary: allow all authenticated users
         return view('products.settings');
     }
 }
