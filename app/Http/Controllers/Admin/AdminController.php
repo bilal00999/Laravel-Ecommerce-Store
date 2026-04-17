@@ -152,4 +152,57 @@ class AdminController extends Controller
         return redirect()->route('admin.orders.index')
             ->with('success', 'Orders updated successfully.');
     }
+
+    /**
+     * Display contact message replies page
+     */
+    public function replies(Request $request)
+    {
+        $status = $request->query('status');
+        
+        $query = ContactMessage::with('user');
+        
+        if ($status) {
+            $query->where('status', $status);
+        }
+        
+        $messages = $query->orderBy('created_at', 'desc')->paginate(15);
+        
+        $counts = [
+            'all' => ContactMessage::count(),
+            'pending' => ContactMessage::where('status', 'pending')->count(),
+            'read' => ContactMessage::where('status', 'read')->count(),
+            'replied' => ContactMessage::where('status', 'replied')->count(),
+        ];
+
+        return view('admin.contact.replies', compact('messages', 'counts'));
+    }
+
+    /**
+     * Show contact message detail
+     */
+    public function showReply(ContactMessage $contactMessage)
+    {
+        $contactMessage->update(['status' => 'read']);
+        return view('admin.contact.reply-detail', compact('contactMessage'));
+    }
+
+    /**
+     * Store reply to contact message
+     */
+    public function storeReply(Request $request, ContactMessage $contactMessage)
+    {
+        $validated = $request->validate([
+            'reply' => 'required|string|min:5',
+        ]);
+
+        $contactMessage->update([
+            'admin_reply' => $validated['reply'],
+            'status' => 'replied',
+            'replied_at' => now(),
+        ]);
+
+        return redirect()->route('admin.contact.replies')
+            ->with('success', 'Reply sent successfully.');
+    }
 }
