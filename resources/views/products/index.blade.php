@@ -451,7 +451,7 @@
                         </button>
                         <div class="user-dropdown" id="userDropdown">
                             @if(auth()->user()->is_admin)
-                                <a href="#">
+                                <a href="{{ route('admin.dashboard') }}">
                                     <i class="bi bi-gear"></i> Admin Panel
                                 </a>
                                 <hr style="margin: 0.5rem 0;">

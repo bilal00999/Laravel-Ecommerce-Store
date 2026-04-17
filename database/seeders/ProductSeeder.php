@@ -17,9 +17,9 @@ class ProductSeeder extends Seeder
     {
         // Get the test user or create one
         $user = User::firstOrCreate(
-            ['email' => 'test@example.com'],
+            ['email' => 'admin@example.com'],
             [
-                'name' => 'Test User',
+                'name' => 'Admin',
                 'password' => bcrypt('password'),
                 'is_admin' => true,
             ]

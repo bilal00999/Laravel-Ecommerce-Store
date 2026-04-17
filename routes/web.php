@@ -61,7 +61,19 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // Admin dashboard
     Route::get('/admin', function () {
-        return view('admin.dashboard');
+        $totalProducts = \App\Models\Product::count();
+        $totalCategories = \App\Models\Category::count();
+        $totalUsers = \App\Models\User::count();
+        $totalOrders = 0; // Placeholder - no orders table yet
+        $products = \App\Models\Product::with('category', 'user')->orderBy('created_at', 'desc')->limit(50)->get();
+        
+        return view('admin.dashboard', [
+            'totalProducts' => $totalProducts,
+            'totalCategories' => $totalCategories,
+            'totalUsers' => $totalUsers,
+            'totalOrders' => $totalOrders,
+            'products' => $products,
+        ]);
     })->name('admin.dashboard');
 
     // Admin panel routes
