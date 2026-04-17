@@ -20,11 +20,17 @@ class OrderDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'orders.action')
-            ->setRowId('id')
-            ->editColumn('customer_name', function ($row) {
-                return $row->user->name ?? 'Guest';
+            ->addColumn('customer_name', function ($row) {
+                return $row->user ? $row->user->name : 'Guest';
             })
+            ->addColumn('action', function ($row) {
+                return '<div style="display: flex; gap: 5px; justify-content: center;">
+                    <button class="btn btn-sm btn-info" title="View Details" onclick="alert(\'View order #' . $row->id . '\')">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>';
+            })
+            ->setRowId('id')
             ->editColumn('total', function ($row) {
                 return '$' . number_format($row->total, 2);
             })
@@ -60,7 +66,7 @@ class OrderDataTable extends DataTable
         return $this->builder()
             ->setTableId('orders-table')
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax(route('admin.orders.datatable'))
             ->dom('Bfrtip')
             ->orderBy(0, 'desc')
             ->selectStyleSingle()
@@ -68,9 +74,7 @@ class OrderDataTable extends DataTable
                 Button::make('excel'),
                 Button::make('csv'),
                 Button::make('pdf'),
-                Button::make('print'),
-                Button::make('reset'),
-                Button::make('reload')
+                Button::make('print')
             ]);
     }
 
@@ -80,17 +84,20 @@ class OrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('customer_name')
+            Column::make('id')
+                ->searchable(false),
+            Column::computed('customer_name')
                 ->title('Customer'),
             Column::make('total')
                 ->title('Amount'),
-            Column::make('status'),
+            Column::make('status')
+                ->searchable(true),
             Column::make('created_at')
                 ->title('Order Date'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
+                ->searchable(false)
                 ->width(100)
                 ->addClass('text-center'),
         ];

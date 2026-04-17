@@ -52,94 +52,22 @@ class AdminController extends Controller
     }
 
     /**
-     * Display orders index.
-     * Shows all orders (placeholder - no orders table yet).
+     * Display Orders index page (render the page with DataTable).
      */
-    public function orders()
+    public function orders(OrderDataTable $dataTable)
     {
-        // Placeholder: In real system, would fetch from orders table
-        $orders = [];
-        $total_orders = 0;
-        $total_revenue = 0;
-
-        return view('admin.orders.index', [
-            'orders' => $orders,
-            'total_orders' => $total_orders,
-            'total_revenue' => $total_revenue,
-        ]);
+        // This returns the view which will initialize the DataTable
+        // The DataTable JavaScript will then make AJAX calls to the datatable endpoint
+        return $dataTable->render('orders.datatables');
     }
 
     /**
-     * Display contact message replies management.
-     * Shows pending and replied messages for admin to manage.
+     * Display Orders DataTable (AJAX endpoint returning JSON).
      */
-    public function replies(Request $request)
+    public function ordersDataTable(OrderDataTable $dataTable)
     {
-        $filter = $request->query('filter', 'all'); // all, pending, read, replied
-        
-        $query = ContactMessage::with('user');
-
-        // Apply filter
-        switch ($filter) {
-            case 'pending':
-                $query->pending();
-                break;
-            case 'read':
-                $query->read();
-                break;
-            case 'replied':
-                $query->replied();
-                break;
-        }
-
-        $messages = $query->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        $counts = [
-            'all' => ContactMessage::count(),
-            'pending' => ContactMessage::pending()->count(),
-            'read' => ContactMessage::read()->count(),
-            'replied' => ContactMessage::replied()->count(),
-        ];
-
-        return view('admin.contact.replies', [
-            'messages' => $messages,
-            'counts' => $counts,
-            'current_filter' => $filter,
-        ]);
-    }
-
-    /**
-     * Show a single contact message for replying.
-     */
-    public function showReply(ContactMessage $message)
-    {
-        // Mark as read if pending
-        if ($message->status === 'pending') {
-            $message->markAsRead();
-        }
-
-        return view('admin.contact.reply-detail', ['message' => $message]);
-    }
-
-    /**
-     * Store reply to a contact message.
-     */
-    public function storeReply(Request $request, ContactMessage $message)
-    {
-        $validated = $request->validate([
-            'admin_reply' => [
-                'required',
-                'string',
-                'min:10',
-                'max:5000',
-            ],
-        ]);
-
-        $message->markAsReplied($validated['admin_reply']);
-
-        return redirect()->route('admin.contact.replies')
-            ->with('success', 'Reply sent to ' . $message->user->name . '!');
+        return $dataTable->dataTable($dataTable->query(new \App\Models\Order()))
+            ->make(true);
     }
 
     /**
@@ -172,13 +100,5 @@ class AdminController extends Controller
     public function productsDataTable(ProductDataTable $dataTable)
     {
         return $dataTable->render('products.datatables');
-    }
-
-    /**
-     * Display Orders DataTable.
-     */
-    public function ordersDataTable(OrderDataTable $dataTable)
-    {
-        return $dataTable->render('orders.datatables');
     }
 }

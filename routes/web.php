@@ -72,8 +72,8 @@ Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin'
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
     
     // DataTables
-    Route::get('/products/datatable', [AdminController::class, 'productsDataTable'])->name('products.datatable');
-    Route::get('/orders/datatable', [AdminController::class, 'ordersDataTable'])->name('orders.datatable');
+    Route::match(['get', 'post'], '/products/datatable', [AdminController::class, 'productsDataTable'])->name('products.datatable');
+    Route::match(['get', 'post'], '/orders/datatable', [AdminController::class, 'ordersDataTable'])->name('orders.datatable');
     
     // Contact Message Replies
     Route::get('/contact/replies', [AdminController::class, 'replies'])->name('contact.replies');

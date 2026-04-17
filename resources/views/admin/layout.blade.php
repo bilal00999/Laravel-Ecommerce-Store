@@ -184,7 +184,7 @@
                 <li><a href="{{ route('admin.visitors.overview') }}" class="@if(request()->routeIs('admin.visitors.*')) active @endif">
                     <i class="bi bi-people"></i> Visitors
                 </a></li>
-                <li><a href="{{ route('admin.orders.datatable') }}" class="@if(request()->routeIs('admin.orders.datatable')) active @endif">
+                <li><a href="{{ route('admin.orders.index') }}" class="@if(request()->routeIs('admin.orders.index')) active @endif">
                     <i class="bi bi-bag"></i> Orders
                 </a></li>
                 <li><a href="{{ route('admin.contact.replies') }}" class="@if(request()->routeIs('admin.contact.*')) active @endif">
