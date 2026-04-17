@@ -3,33 +3,94 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Access\AuthorizationException;
 
 class ProductController extends Controller
 {
     /**
-     * Display a listing of products.
+     * Display a listing of products with filtering and pagination.
      * Everyone can view products
+     * 
+     * Query Parameters:
+     * - search: Search by name/description
+     * - category: Filter by category ID
+     * - min_price: Minimum price filter
+     * - max_price: Maximum price filter
+     * - sort: Sort by (latest, popular, price_low, price_high)
+     * - per_page: Items per page (default 12)
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        return view('products.index', ['products' => $products]);
+        $search = $request->query('search');
+        $categoryId = $request->query('category');
+        $minPrice = $request->query('min_price');
+        $maxPrice = $request->query('max_price');
+        $sort = $request->query('sort', 'latest');
+        $perPage = $request->query('per_page', 12);
+
+        // Start query
+        $query = Product::query();
+
+        // Apply filters
+        $query->search($search);
+        $query->byCategory($categoryId);
+        $query->byPriceRange($minPrice, $maxPrice);
+
+        // Apply sorting
+        switch ($sort) {
+            case 'popular':
+                // You can add views count or sales count
+                $query->orderBy('stock', 'desc');
+                break;
+            case 'price_low':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'latest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        // Paginate results
+        $products = $query->with('category', 'user')
+                         ->paginate($perPage);
+
+        // Get all categories for filter dropdown
+        $categories = Category::all();
+
+        // Get price range for filter display
+        $allProducts = Product::query();
+        $minPriceAvailable = $allProducts->min('price') ?? 0;
+        $maxPriceAvailable = $allProducts->max('price') ?? 1000;
+
+        return view('products.index', [
+            'products' => $products,
+            'categories' => $categories,
+            'search' => $search,
+            'categoryId' => $categoryId,
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice,
+            'sort' => $sort,
+            'minPriceAvailable' => $minPriceAvailable,
+            'maxPriceAvailable' => $maxPriceAvailable,
+        ]);
     }
 
     /**
      * Show the form for creating a new product.
      * Only admins can create products
-     * 
-     * Using Policy: $this->authorize('create', Product::class);
      */
     public function create()
     {
-        // Authorize using policy
         $this->authorize('create', Product::class);
 
-        return view('products.create');
+        $categories = Category::all();
+        return view('products.create', ['categories' => $categories]);
     }
 
     /**
@@ -37,7 +98,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // Authorize using policy
         $this->authorize('create', Product::class);
 
         $validated = $request->validate([
@@ -45,9 +105,9 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        // Add current user as creator
         $validated['user_id'] = auth()->id();
         $validated['slug'] = str()->slug($validated['name']);
 
@@ -62,25 +122,34 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        // Anyone can view, but we can use policy if needed
-        // $this->authorize('view', $product);
+        // Load relationships
+        $product->load('category', 'user');
 
-        return view('products.show', ['product' => $product]);
+        // Get related products (same category, different product)
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->limit(4)
+            ->get();
+
+        return view('products.show', [
+            'product' => $product,
+            'relatedProducts' => $relatedProducts,
+        ]);
     }
 
     /**
      * Show the form for editing the specified product.
      * Only product owner or admin can edit
-     * 
-     * Using Policy with Route Model Binding: 
-     * $this->authorize('update', $product);
      */
     public function edit(Product $product)
     {
-        // Authorize using policy with product instance
         $this->authorize('update', $product);
 
-        return view('products.edit', ['product' => $product]);
+        $categories = Category::all();
+        return view('products.edit', [
+            'product' => $product,
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -88,7 +157,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        // Authorize using policy
         $this->authorize('update', $product);
 
         $validated = $request->validate([
@@ -96,6 +164,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         $validated['slug'] = str()->slug($validated['name']);
@@ -111,7 +180,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        // Authorize using policy
         $this->authorize('delete', $product);
 
         $product->delete();
@@ -126,17 +194,18 @@ class ProductController extends Controller
      */
     public function adminStats()
     {
-        // Using Gate directly
         if (!auth()->check() || !auth()->user()->can('admin')) {
             throw new AuthorizationException();
         }
 
         $totalProducts = Product::count();
         $totalUsers = \App\Models\User::count();
+        $totalCategories = Category::count();
 
         return view('products.admin-stats', [
             'totalProducts' => $totalProducts,
             'totalUsers' => $totalUsers,
+            'totalCategories' => $totalCategories,
         ]);
     }
 
@@ -149,7 +218,8 @@ class ProductController extends Controller
             throw new AuthorizationException('Access denied');
         }
 
-        // ... manager logic
+        $products = Product::all();
+        return view('products.managers', ['products' => $products]);
     }
 
     /**
@@ -157,9 +227,9 @@ class ProductController extends Controller
      */
     public function settingsPage()
     {
-        // Will throw AuthorizationException if check fails
         \Illuminate\Support\Facades\Gate::authorize('manage-settings');
 
         return view('products.settings');
     }
 }
+

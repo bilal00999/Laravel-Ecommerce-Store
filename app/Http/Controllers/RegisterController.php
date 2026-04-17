@@ -46,15 +46,11 @@ class RegisterController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'is_admin' => false,
+            'email_verified_at' => now(),  // Mark as verified immediately
         ]);
 
-        // Dispatch event to send verification email
-        event(new Registered($user));
-
-        // Login user
-        auth()->login($user);
-
-        return redirect()->route('verification.notice')->with('status', 'Registration successful! Please verify your email.');
+        // Redirect to login page
+        return redirect()->route('login')->with('success', 'Registration successful! Please login to continue.');
     }
 
     /**

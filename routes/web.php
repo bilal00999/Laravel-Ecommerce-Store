@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\CartController;
 
-// Public routes
+// Public routes - Redirect home to products
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('products.index');
 })->name('home');
 
 /**
@@ -45,29 +45,13 @@ Route::middleware('guest')->group(function () {
 // ============================================================
 // Redirects unauthenticated users to login
 Route::middleware('auth')->group(function () {
-    // Email Verification
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->name('verification.notice');
+    // Logout - accessible to all authenticated users
+    Route::post('/logout', [AuthController::class, 'logoutWeb'])->name('logout');
 
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect('/dashboard')->with('status', 'Email verified successfully!');
-    })->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
-
-    Route::post('/email/verification-notification', function (\Illuminate\Http\Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('status', 'verification-link-sent');
-    })->middleware('throttle:6,1')->name('verification.send');
-
-    // Authenticated dashboard (requires email verification)
-    Route::middleware('verified')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
-        
-        Route::post('/logout', [AuthController::class, 'logoutWeb'])->name('logout');
-    });
+    // Dashboard redirect to products
+    Route::get('/dashboard', function () {
+        return redirect()->route('products.index');
+    })->name('dashboard');
 });
 
 // ============================================================
@@ -113,6 +97,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 //
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
 
 // ============================================================
 // PRODUCT ROUTES - Demonstrating Policies
@@ -137,6 +122,26 @@ Route::middleware('auth')->group(function () {
     // Delete product - Only if policy allows (admin or product owner)
     // ProductPolicy::delete() checks: admin OR owner
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+
+    // Product image upload - Only if user is admin or product owner
+    Route::get('/products/{product}/upload-image', [ProductImageController::class, 'edit'])->name('products.edit-image');
+    Route::post('/products/{product}/upload-image', [ProductImageController::class, 'store'])->name('products.upload-image');
+});
+
+// ============================================================
+// SHOPPING CART ROUTES
+// ============================================================
+
+// Public cart routes (accessible to everyone - guests and logged in users)
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart/count', [CartController::class, 'getCount'])->name('cart.count');
+
+// Cart management (for both guests and authenticated users)
+Route::middleware('web')->group(function () {
+    Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
 });
 
 // ============================================================

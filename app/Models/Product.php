@@ -17,6 +17,8 @@ class Product extends Model
         'price',
         'stock',
         'user_id',
+        'category_id',
+        'image_path',
     ];
 
     protected $casts = [
@@ -30,5 +32,50 @@ class Product extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the category this product belongs to.
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Scope: Filter by category
+     */
+    public function scopeByCategory($query, $categoryId)
+    {
+        if ($categoryId) {
+            return $query->where('category_id', $categoryId);
+        }
+        return $query;
+    }
+
+    /**
+     * Scope: Filter by price range
+     */
+    public function scopeByPriceRange($query, $minPrice, $maxPrice)
+    {
+        if ($minPrice !== null) {
+            $query->where('price', '>=', $minPrice);
+        }
+        if ($maxPrice !== null) {
+            $query->where('price', '<=', $maxPrice);
+        }
+        return $query;
+    }
+
+    /**
+     * Scope: Search by name or description
+     */
+    public function scopeSearch($query, $search)
+    {
+        if ($search) {
+            return $query->where('name', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%");
+        }
+        return $query;
     }
 }

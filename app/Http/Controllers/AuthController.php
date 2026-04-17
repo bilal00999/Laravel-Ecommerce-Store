@@ -34,7 +34,7 @@ class AuthController extends Controller
         if (Auth::attempt($validated, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            return redirect()->route('products.index')->with('success', 'Login successful! Welcome back.');
         }
 
         // Return validation error
