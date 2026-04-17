@@ -37,4 +37,20 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the products created by this user.
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    /**
+     * Get the contact messages sent by this user.
+     */
+    public function contactMessages()
+    {
+        return $this->hasMany(ContactMessage::class);
+    }
 }

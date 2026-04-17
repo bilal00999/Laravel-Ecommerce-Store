@@ -157,6 +157,27 @@ Route::middleware('web')->group(function () {
 });
 
 // ============================================================
+// CONTACT FORM ROUTES - Protected by 'auth' middleware
+// ============================================================
+// Only authenticated (logged-in) users can access contact form
+
+use App\Http\Controllers\ContactController;
+
+Route::middleware('auth')->group(function () {
+    // Show contact form
+    Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
+    
+    // Store contact message
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+    
+    // View message history (all messages sent by logged-in user)
+    Route::get('/contact/history', [ContactController::class, 'history'])->name('contact.history');
+    
+    // View specific contact message
+    Route::get('/contact/{contactMessage}', [ContactController::class, 'showMessage'])->name('contact.message');
+});
+
+// ============================================================
 // ADMIN GATE EXAMPLE ROUTES
 // ============================================================
 

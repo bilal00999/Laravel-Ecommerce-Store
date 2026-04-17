@@ -445,6 +445,12 @@
                 </a>
 
                 @auth
+                    <a href="{{ route('contact.show') }}" class="nav-link" title="Contact Us">
+                        <i class="bi bi-envelope" style="font-size: 1.2rem;"></i>
+                    </a>
+                @endauth
+
+                @auth
                     <div class="user-menu position-relative">
                         <button class="nav-link dropdown-toggle" type="button" onclick="toggleUserMenu()" style="background: none; border: none;">
                             <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
