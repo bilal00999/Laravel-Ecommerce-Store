@@ -69,6 +69,9 @@ Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin'
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     
     // Orders
+    // DataTable AJAX endpoint - must come BEFORE parameterized route
+    Route::match(['get', 'post'], '/orders/datatable', [AdminController::class, 'ordersDataTable'])->name('orders.datatable');
+    // Page routes
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
     Route::get('/orders/{order}', [AdminController::class, 'showOrder'])->name('orders.show');
     Route::put('/orders/{order}', [AdminController::class, 'updateOrder'])->name('orders.update');
@@ -79,7 +82,6 @@ Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin'
     
     // DataTables
     Route::match(['get', 'post'], '/products/datatable', [AdminController::class, 'productsDataTable'])->name('products.datatable');
-    Route::match(['get', 'post'], '/orders/datatable', [AdminController::class, 'ordersDataTable'])->name('orders.datatable');
     
     // Contact Message Replies
     Route::get('/contact/replies', [AdminController::class, 'replies'])->name('contact.replies');
