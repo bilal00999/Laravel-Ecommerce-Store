@@ -43,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
          * Check if user is admin or moderator
          */
         Gate::define('moderator', function (User $user) {
-            return in_array($user->role, ['admin', 'moderator']);
+            return in_array($user->role, ['admin', 'moderator']) || $user->is_admin;
         });
 
         /**
@@ -51,7 +51,7 @@ class AuthServiceProvider extends ServiceProvider
          * Check if user can manage other users (admin only)
          */
         Gate::define('manage-users', function (User $user) {
-            return $user->role === 'admin';
+            return $user->role === 'admin' || $user->is_admin;
         });
 
         /**
@@ -59,7 +59,7 @@ class AuthServiceProvider extends ServiceProvider
          * Check if user can access app settings (admin only)
          */
         Gate::define('manage-settings', function (User $user) {
-            return $user->role === 'admin';
+            return $user->role === 'admin' || $user->is_admin;
         });
 
         /**

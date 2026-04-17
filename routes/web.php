@@ -212,7 +212,7 @@ Route::middleware('auth')->group(function () {
 // ADMIN GATE EXAMPLE ROUTES
 // ============================================================
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware('auth')->group(function () {
     // Using Gate::allows() in controller
     Route::get('/admin/stats', [ProductController::class, 'adminStats'])->name('admin.stats');
 
