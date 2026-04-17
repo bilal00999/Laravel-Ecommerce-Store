@@ -22,6 +22,9 @@ class ProductDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('category_name', function ($row) {
+                return $row->category ? $row->category->name : 'N/A';
+            })
             ->addColumn('action', 'products.action')
             ->setRowId('id')
             ->editColumn('price', function ($row) {
@@ -59,7 +62,6 @@ class ProductDataTable extends DataTable
             ->orderBy(0, 'desc')
             ->selectStyleSingle()
             ->buttons([
-                Button::make('create'),
                 Button::make('excel'),
                 Button::make('csv'),
                 Button::make('pdf'),
@@ -75,9 +77,8 @@ class ProductDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('category_id')
-                ->title('Category')
-                ->render('function(data, type, row) { return row.category.name || "N/A"; }'),
+            Column::computed('category_name')
+                ->title('Category'),
             Column::make('price'),
             Column::make('stock'),
             Column::make('created_at')
