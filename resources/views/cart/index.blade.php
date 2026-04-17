@@ -121,13 +121,18 @@
                             <strong style="font-size: 1.2rem; color: #667eea;">${{ number_format($total + ($total * 0.08), 2) }}</strong>
                         </div>
 
-                        <button class="btn btn-primary w-100 btn-lg" disabled>
-                            <i class="bi bi-credit-card"></i> Checkout (Coming Soon)
-                        </button>
-
-                        <small class="text-muted d-block mt-3">
-                            <i class="bi bi-info-circle"></i> Checkout feature coming soon. For now, continue shopping!
-                        </small>
+                        @auth
+                            <a href="{{ route('checkout.show') }}" class="btn btn-primary w-100 btn-lg">
+                                <i class="bi bi-credit-card"></i> Proceed to Checkout
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-primary w-100 btn-lg">
+                                <i class="bi bi-box-arrow-in-right"></i> Login to Checkout
+                            </a>
+                            <small class="text-muted d-block mt-3">
+                                <i class="bi bi-info-circle"></i> You must be logged in to checkout
+                            </small>
+                        @endauth
                     </div>
                 </div>
             </div>

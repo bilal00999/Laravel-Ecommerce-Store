@@ -184,7 +184,7 @@
                 <li><a href="{{ route('admin.visitors.overview') }}" class="@if(request()->routeIs('admin.visitors.*')) active @endif">
                     <i class="bi bi-people"></i> Visitors
                 </a></li>
-                <li><a href="{{ route('admin.orders.index') }}" class="@if(request()->routeIs('admin.orders.*')) active @endif">
+                <li><a href="{{ route('admin.orders.datatable') }}" class="@if(request()->routeIs('admin.orders.datatable')) active @endif">
                     <i class="bi bi-bag"></i> Orders
                 </a></li>
                 <li><a href="{{ route('admin.contact.replies') }}" class="@if(request()->routeIs('admin.contact.*')) active @endif">
@@ -192,6 +192,9 @@
                 </a></li>
 
                 <div class="sidebar-menu-title">Content</div>
+                <li><a href="{{ route('admin.products.datatable') }}" class="@if(request()->routeIs('admin.products.datatable')) active @endif">
+                    <i class="bi bi-box-seam"></i> Products (DataTable)
+                </a></li>
                 <li><a href="{{ route('products.index') }}">
                     <i class="bi bi-box-seam"></i> Products
                 </a></li>

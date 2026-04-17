@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
@@ -69,6 +70,10 @@ Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin'
     
     // Orders
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
+    
+    // DataTables
+    Route::get('/products/datatable', [AdminController::class, 'productsDataTable'])->name('products.datatable');
+    Route::get('/orders/datatable', [AdminController::class, 'ordersDataTable'])->name('orders.datatable');
     
     // Contact Message Replies
     Route::get('/contact/replies', [AdminController::class, 'replies'])->name('contact.replies');
@@ -149,6 +154,28 @@ Route::middleware('web')->group(function () {
     Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+});
+
+// ============================================================
+// CHECKOUT ROUTES - Protected by 'auth' middleware
+// ============================================================
+// Only authenticated users can checkout
+
+Route::middleware('auth')->group(function () {
+    // Show checkout form
+    Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout.show');
+    
+    // Process checkout (create order)
+    Route::post('/checkout', [CheckoutController::class, 'process'])->name('checkout.process');
+    
+    // Order success page
+    Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
+    
+    // User's order history
+    Route::get('/orders', [CheckoutController::class, 'orders'])->name('checkout.orders');
+    
+    // View specific order details
+    Route::get('/orders/{order}', [CheckoutController::class, 'orderDetails'])->name('checkout.order-details');
 });
 
 // ============================================================

@@ -456,7 +456,11 @@
                             <i class="bi bi-person-circle"></i> {{ auth()->user()->name }}
                         </button>
                         <div class="user-dropdown" id="userDropdown">
+                            <a href="{{ route('checkout.orders') }}">
+                                <i class="bi bi-file-text"></i> My Orders
+                            </a>
                             @if(auth()->user()->is_admin)
+                                <hr style="margin: 0.5rem 0;">
                                 <a href="{{ route('admin.dashboard') }}">
                                     <i class="bi bi-gear"></i> Admin Panel
                                 </a>

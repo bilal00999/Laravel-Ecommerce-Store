@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\DataTables\ProductDataTable;
+use App\DataTables\OrderDataTable;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
@@ -162,5 +164,21 @@ class AdminController extends Controller
             'stats' => $stats,
             'users_by_date' => $users_by_date,
         ]);
+    }
+
+    /**
+     * Display Products DataTable.
+     */
+    public function productsDataTable(ProductDataTable $dataTable)
+    {
+        return $dataTable->render('products.datatables');
+    }
+
+    /**
+     * Display Orders DataTable.
+     */
+    public function ordersDataTable(OrderDataTable $dataTable)
+    {
+        return $dataTable->render('orders.datatables');
     }
 }
