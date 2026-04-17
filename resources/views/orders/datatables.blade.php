@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="admin-content">
-    <div class="card">
+    <div class="card" style="max-width: 1200px; margin: 0 auto;">
         <div class="card-body">
             {{ $dataTable->table(['class' => 'table table-striped table-hover']) }}
         </div>
