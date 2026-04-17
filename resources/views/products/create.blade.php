@@ -138,27 +138,3 @@
     </div>
 </div>
 @endsection
-                                        id="stock" 
-                                        name="stock" 
-                                        value="{{ old('stock') }}" 
-                                        required
-                                        placeholder="0"
-                                        min="0"
-                                    >
-                                    @error('stock')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="d-grid gap-2 d-md-block">
-                            <button type="submit" class="btn btn-primary">Create Product</button>
-                            <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
