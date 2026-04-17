@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\ContactController;
 
 // Public routes - Redirect home to products
 Route::get('/', function () {
@@ -58,32 +62,26 @@ Route::middleware('auth')->group(function () {
 // 3. ADMIN MIDDLEWARE - Routes for admin users only
 // ============================================================
 // Checks if user is authenticated AND has role = 'admin'
-Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-    // Admin dashboard
-    Route::get('/admin', function () {
-        $totalProducts = \App\Models\Product::count();
-        $totalCategories = \App\Models\Category::count();
-        $totalUsers = \App\Models\User::count();
-        $totalOrders = 0; // Placeholder - no orders table yet
-        $products = \App\Models\Product::with('category', 'user')->orderBy('created_at', 'desc')->limit(50)->get();
-        
-        return view('admin.dashboard', [
-            'totalProducts' => $totalProducts,
-            'totalCategories' => $totalCategories,
-            'totalUsers' => $totalUsers,
-            'totalOrders' => $totalOrders,
-            'products' => $products,
-        ]);
-    })->name('admin.dashboard');
 
-    // Admin panel routes
-    Route::get('/admin/users', function () {
-        return view('admin.users.index');
-    })->name('admin.users');
-
-    Route::get('/admin/settings', function () {
+Route::middleware(['auth', \App\Http\Middleware\IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+    // Dashboard
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Orders
+    Route::get('/orders', [AdminController::class, 'orders'])->name('orders.index');
+    
+    // Contact Message Replies
+    Route::get('/contact/replies', [AdminController::class, 'replies'])->name('contact.replies');
+    Route::get('/contact/{contactMessage}', [AdminController::class, 'showReply'])->name('contact.show');
+    Route::post('/contact/{contactMessage}/reply', [AdminController::class, 'storeReply'])->name('contact.reply.store');
+    
+    // Visitor Overview
+    Route::get('/visitors', [AdminController::class, 'visitorOverview'])->name('visitors.overview');
+    
+    // Settings
+    Route::get('/settings', function () {
         return view('admin.settings');
-    })->name('admin.settings');
+    })->name('settings');
 });
 
 // ============================================================
@@ -107,9 +105,6 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 // - 'manage-settings' - Only admins
 // - 'view-analytics' - Admins and moderators
 //
-
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductImageController;
 
 // ============================================================
 // PRODUCT ROUTES - Demonstrating Policies
@@ -160,8 +155,6 @@ Route::middleware('web')->group(function () {
 // CONTACT FORM ROUTES - Protected by 'auth' middleware
 // ============================================================
 // Only authenticated (logged-in) users can access contact form
-
-use App\Http\Controllers\ContactController;
 
 Route::middleware('auth')->group(function () {
     // Show contact form
