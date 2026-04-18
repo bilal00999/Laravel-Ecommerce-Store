@@ -8,9 +8,13 @@ A modern, feature-rich e-commerce platform built with Laravel 11, featuring a be
 
 **Watch the complete project walkthrough:**
 
-[![E-Commerce Store Demo](https://img.shields.io/badge/YouTube-Demo%20Video-red?style=for-the-badge&logo=youtube)](YOUR_VIDEO_LINK_HERE)
+### 👤 User Page
 
-_Replace `YOUR_VIDEO_LINK_HERE` with your actual video URL_
+[![User Page Demo](https://img.shields.io/badge/Google%20Drive-User%20Page-4285F4?style=for-the-badge&logo=googledrive)](https://drive.google.com/file/d/12Uk_ZbXHxWp1-NgXpIIeHxp9dYMZcGQZ/view?usp=sharing)
+
+### 👨‍💼 Admin Page
+
+[![Admin Page Demo](https://img.shields.io/badge/Google%20Drive-Admin%20Page-4285F4?style=for-the-badge&logo=googledrive)](https://drive.google.com/file/d/1HSVFH_5_UjE1f5bHb504S4aCTaaZIyqH/view?usp=sharing)
 
 ---
 
