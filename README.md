@@ -227,9 +227,9 @@ ecommerce_store/
 | Role     | Email             | Password |
 | -------- | ----------------- | -------- |
 | Admin    | admin@example.com | password |
-| Customer | user@example.com  | password |
+ |
 
-_Change these credentials after first login!_
+
 
 ---
 
