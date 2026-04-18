@@ -378,27 +378,4 @@ This project is open-source and available under the [MIT License](LICENSE).
 **Bilal Khan**
 
 - GitHub: [@bilal00999](https://github.com/bilal00999)
-- Email: bilal@example.com
 
----
-
-## 🙏 Acknowledgments
-
-- Laravel community and documentation
-- Bootstrap framework team
-- Bootstrap Icons library
-- All contributors and supporters
-
----
-
-## 📞 Support
-
-For issues, questions, or suggestions:
-
-- Open an [Issue](https://github.com/bilal00999/Laravel-Ecommerce-Store/issues)
-- Contact the author directly
-- Check the [Documentation](./docs/)
-
----
-
-**Made with ❤️ by Bilal Khan**
