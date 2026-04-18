@@ -375,7 +375,7 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-**Bilal Khan**
+**Bilal Ahmed**
 
 - GitHub: [@bilal00999](https://github.com/bilal00999)
 
